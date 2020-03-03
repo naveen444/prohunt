@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	{% load staticfiles %}
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>Producthunt</title>
+
+	<!-- Custom fonts for this theme -->
+	<link href="https://blackrockdigital.github.io/startbootstrap-freelancer/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+	<!-- Theme CSS -->
+	<link href="https://blackrockdigital.github.io/startbootstrap-freelancer/css/freelancer.min.css" rel="stylesheet">
+	<!-- <link href="{% static 'css/home.css' %}" rel="stylesheet"> -->
+</head>
+
+<body id="page-top" >
+  <!-- style="background-attachment: fixed;" -->
+	<!-- Navigation -->
+	<nav class="navbar navbar-expand-lg fixed-top navbar-fixed-top bg-dark" id="mainNav">
+		<div class="container">
+			<a class="navbar-brand js-scroll-trigger brandfont" href="#page-top">
+        <img src="{% static 'logo.png' %}" class="w-25 d-inline-block align-top" />Prohunt</a>
+			<button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-white rounded p-2" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+				Menu
+				<i class="fas fa-bars"></i>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item mx-0 mx-lg-1">
+						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger bounce-left navitems" href="#">Sign Up</a>
+					</li>
+					<li class="nav-item mx-0 mx-lg-1">
+						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger bounce-left navitems" href="#">Login</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Masthead -->
+	<header class="masthead" style="padding-top: 140px;">
+		<div class="container">
+      {% block content %}
+      {% endblock %}
+		</div>
+	</header>
+
+	<!-- Footer -->
+	<footer class="footer text-center ftr p-0 m-0">
+		<div class="container">
+		</div>
+	</footer>
+
+	<!-- Copyright Section -->
+	<section class="copyright py-4 text-center text-white">
+		<div class="container">
+			<small>Copyright &copy; Naveen {% now "Y" %}</small>
+		</div>
+	</section>
+
+	<!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
+	<div class="scroll-to-top d-lg-none position-fixed ">
+		<a class="js-scroll-trigger d-block text-center text-white rounded" href="#page-top">
+			<i class="fa fa-chevron-up"></i>
+		</a>
+	</div>
+
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="https://blackrockdigital.github.io/startbootstrap-freelancer/vendor/jquery/jquery.min.js"></script>
+	<script src="https://blackrockdigital.github.io/startbootstrap-freelancer/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Plugin JavaScript -->
+	<script src="https://blackrockdigital.github.io/startbootstrap-freelancer/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+	<!-- Custom scripts for this template -->
+	<script src="https://blackrockdigital.github.io/startbootstrap-freelancer/js/freelancer.min.js"></script>
+
+	<!-- Contact Form JavaScript -->
+	<!-- <script src="{% static 'js/contact_me.js' %}"></script> -->
+	<!-- <script src="{% static 'js/home.js' %}"></script> -->
+
+</body>
+
+</html>
+
+
+hello this is the top
+
+
+hello this is the bottom
