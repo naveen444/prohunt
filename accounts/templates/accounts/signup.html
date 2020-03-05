@@ -4,7 +4,7 @@
 <div class="text-center">
   <h1 class="">Sign Up!</h1>
 
-  <form class="" action="{% url 'signup' %}" method="post">
+  <form class="" action="{% url 'signup' %}" method="POST">
   {% csrf_token %}
   <div class="row">
 				<div class="col-lg-8 mx-auto">
@@ -13,25 +13,28 @@
 						<div class="control-group">
 							<div class="form-group floating-label-form-group controls mb-0 pb-2">
 								<label>Username</label>
-								<input class="form-control font-weight-bold bg-transparent" type="text" name="name" id="name" placeholder="Username" />
+								<input class="form-control font-weight-bold bg-transparent" type="text" name="username" id="username" placeholder="Username" />
 								<p class="help-block text-danger" id = "reqUsername"></p>
 							</div>
 						</div>
 						<div class="control-group">
 							<div class="form-group floating-label-form-group controls mb-0 pb-2">
 								<label>Password</label>
-								<input class="form-control font-weight-bold bg-transparent" name="email" id="email" placeholder="Password" />
+								<input class="form-control font-weight-bold bg-transparent" name="password" id="password" placeholder="Password" />
 								<p class="help-block text-danger" id = "Password"></p>
 							</div>
 						</div>
 						<div class="control-group">
 							<div class="form-group floating-label-form-group controls mb-0 pb-2">
 								<label>Confirm Password</label>
-								<input class="form-control font-weight-bold bg-transparent" name="message" id="message" placeholder="Confirm Password" ></input>
+								<input class="form-control font-weight-bold bg-transparent" name="cpassword" id="cpassword" placeholder="Confirm Password" ></input>
 								<p class="help-block text-danger" id = "ConfirmPassword"></p>
 							</div>
 						</div>
 						<br>
+            <p class="h5 help-block text-danger font-weight-bolder" id = "reqUsername">{% if error %}
+              {{error}}
+            {% endif %}</p>
 						<!-- <div id="success"></div> -->
 						<div class="form-group">
 							<input type="submit" class="btn md-btn btn-outline-dark font-weight-bold btn-lg" value="Sign Up"></input>
