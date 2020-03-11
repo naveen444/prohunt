@@ -20,4 +20,6 @@ from . import views
 
 urlpatterns = [
     path('createp', views.createp, name='createp'),
+    path('<int:product_id>/', views.detailp, name='detailp'),
+    path('<int:product_id>/upvote', views.upvote, name='upvote'),
 ]
