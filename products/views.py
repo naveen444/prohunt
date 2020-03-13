@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Product
+from .models import Product, Vote
 from django.utils import timezone
 
 def home(request):
@@ -35,10 +35,28 @@ def detailp(request, product_id):
     product = get_object_or_404(Product, pk = product_id)
     return render(request, 'products/detailp.html', {'product':product})
 
+
 @login_required(login_url="/accounts/signup")
 def upvote(request, product_id):
     if request.method == 'POST':
-        product = get_object_or_404(Product, pk = product_id)
-        product.votes_total += 1
-        product.save()
-        return redirect('/products/' + str(product.id))
+        try:
+            vote = Vote.objects.get(productID=product_id, userID=request.user)
+            product = get_object_or_404(Product, pk = product_id)
+            return render(request, 'products/detailp.html', {'product':product, 'error': '! you have already voted for this post'})
+        except Vote.DoesNotExist:
+            vote = None
+            # find product by id and increment
+            product = Product.objects.get(id=product_id)
+            vote = Vote(productID=product, userID=request.user)
+            product.votes_total += 1
+            vote.save()
+            product.save()
+            return redirect('/products/' + str(product.id))
+
+
+
+    # if request.method == 'POST':
+    #     product = get_object_or_404(Product, pk = product_id)
+    #     product.votes_total += 1
+    #     product.save()
+    #     return redirect('/products/' + str(product.id))

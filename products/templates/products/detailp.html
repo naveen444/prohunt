@@ -19,7 +19,7 @@
       </div>
       <hr>
       <div class="row">
-        <p>{{ product.product_summary}}</p>
+        <p class="h5 font-weight-normal">{{ product.product_summary|striptags }}</p>
         <p class="text-muted h7 font-weight-normal ml-auto"><i class="fa fa-calendar-check" aria-hidden="true"></i>{{ product.pub_date_pretty }}</p>
       </div>
     </div>
@@ -28,6 +28,10 @@
         <a class="btn btn-lg btn-outline-danger btn-block font-weight-bolder" href="javascript:{document.getElementById('upvoting').submit()}">
         <i class="fa fa-caret-up fa-lg" aria-hidden="true"></i>upvote &nbsp &nbsp &nbsp {{product.votes_total}}</a>
       </div>
+      <br>
+      <p class="h6 help-block text-danger font-weight-bolder">{% if error %}
+        {{error}}
+      {% endif %}</p>
       <hr>
       <div class="row-fluid p-1 mx-2">
         <!-- <p class="d-block h6 text-muted">Hunter</p>

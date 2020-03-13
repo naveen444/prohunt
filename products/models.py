@@ -14,8 +14,6 @@ class Product(models.Model):
     votes_total = models.IntegerField(default = 1)
     hunter = models.ForeignKey(User, on_delete = models.CASCADE)
 
-# votes_total
-
     def __str__(self):
         return self.title
 
@@ -25,4 +23,6 @@ class Product(models.Model):
     def pub_date_pretty(self):
         return self.pub_date.strftime('%e %b %Y')   # pub_date_pretty
 
-#hunter
+class Vote(models.Model):
+    productID = models.ForeignKey(Product, on_delete=models.CASCADE)
+    userID = models.ForeignKey(User, on_delete=models.CASCADE)
