@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="text-center">
-  <h1 class="">Sign Up!</h1>
+<div class="">
+  <h1 class="text-center">Sign Up!</h1>
 
-  <form class="" action="{% url 'signup' %}" method="POST">
+  <form class="" action="{% url 'signup' %}" enctype="multipart/form-data" method="POST">
   {% csrf_token %}
   <div class="row">
 				<div class="col-lg-8 mx-auto">
@@ -17,6 +17,50 @@
 								<p class="help-block text-danger" id = "reqUsername"></p>
 							</div>
 						</div>
+            <div class="control-group">
+							<div class="form-group floating-label-form-group controls mb-0 pb-2">
+								<label>First name</label>
+								<input class="form-control font-weight-bold bg-transparent" type="text" name="fname" id="Fname" placeholder="First name" />
+								<p class="help-block text-danger" id = "fn"></p>
+							</div>
+						</div>
+            <div class="control-group">
+							<div class="form-group floating-label-form-group controls mb-0 pb-2">
+								<label>Last name</label>
+								<input class="form-control font-weight-bold bg-transparent" type="text" name="lname" id="Lname" placeholder="Last name" />
+								<p class="help-block text-danger" id = "ln"></p>
+							</div>
+						</div>
+            <br>
+            <div class="control-group">
+							<div class="form-group floating-label-form-group controls mb-0 pb-2">
+								<!-- <label>DOB</label> -->
+								<p class="h5 text-secondary pb-2 text-muted">Date of Birth:</p><input class="form-control font-weight-bold bg-transparent" type="date" name="dob" id="dob" />
+								<!-- <p class="help-block text-danger" id = "dob"></p> -->
+							</div>
+						</div>
+            <div class="control-group">
+							<div class="form-group floating-label-form-group controls mb-0 pb-2">
+								<label>Email</label>
+								<input class="form-control font-weight-bold bg-transparent" type="text" name="email" id="Email" placeholder="Email" />
+								<p class="help-block text-danger" id = "email"></p>
+							</div>
+						</div>
+            <div class="control-group">
+							<div class="form-group floating-label-form-group controls mb-0 pb-2">
+								<label>About</label>
+								<input class="form-control font-weight-bold bg-transparent" type="text" name="about" id="about" placeholder="About" />
+								<p class="help-block text-danger" id = "Abt"></p>
+							</div>
+						</div>
+            <br>
+            <div class="control-group">
+              <!-- <label for="Icon">Profile photo</label> -->
+ 							<div class="form-group floating-label-form-group controls mb-0">
+ 								<p class="h5 text-secondary pb-2 text-muted">Profile photo:</p><input class="form-control font-weight-bold bg-transparent" type="file" name="pphoto" id="pphoto" placeholder="Profile photo" />
+ 								<!-- <p class="help-block text-danger" id = "Pr_summary"></p> -->
+ 							</div>
+ 						</div>
 						<div class="control-group">
 							<div class="form-group floating-label-form-group controls mb-0 pb-2">
 								<label>Password</label>
@@ -36,7 +80,7 @@
               {{error}}
             {% endif %}</p>
 						<!-- <div id="success"></div> -->
-						<div class="form-group">
+						<div class="form-group text-center">
 							<input type="submit" class="btn md-btn btn-outline-dark font-weight-bold btn-lg" value="Sign Up"></input>
 						</div>
 					</form>

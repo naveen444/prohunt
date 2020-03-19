@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import auth
+from .models import Profile
 
 def signup(request):
     if request.method == 'POST':
@@ -9,7 +10,13 @@ def signup(request):
                 user = User.objects.get(username = request.POST['username'])
                 return render(request,'accounts/signup.html', {'error': 'username already exist'})
             except User.DoesNotExist:
-                user = User.objects.create_user(request.POST['username'], password = request.POST['password'])
+                user = User.objects.create_user(request.POST['username'], email = request.POST.get('email'), password = request.POST['password'])
+                user.first_name = request.POST.get('fname')
+                user.last_name = request.POST.get('lname')
+                user.profile.bio = request.POST.get('about')
+                user.profile.image = request.FILES['pphoto']
+                user.profile.birth_date = request.POST.get('dob')
+                user.save()
                 auth.login(request,user)
                 return redirect('home')
         else:
@@ -34,3 +41,8 @@ def logout(request):
     if request.method == 'POST':
         auth.logout(request)
         return redirect('home')
+
+
+def myprofile(request, user_id):
+    user = get_object_or_404(User, pk = user_id)
+    return render(request, 'accounts/myprofile.html', {'user':user})

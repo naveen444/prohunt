@@ -2,17 +2,17 @@
 
 {% block content %}
 
-{% for product in products.all %}
 
-<div class="row">
+{% for product in products.all %}
+<div class="row m-auto">
   <div class="col-1 px-0" data-toggle="modal" data-target="#producthuntModal{{forloop.counter}}" style="cursor: pointer;">
     <!--  onclick="window.location='{% url 'detailp' product.id %}';" -->
     <img class="img-fluid w-100" src="{{ product.icon.url }}" alt="" />
   </div>
-  <div class="col-8">
-    <a class="h3 text-info" data-toggle="modal" data-target="#producthuntModal{{forloop.counter}}">{{ product.title }}</a>
+  <div class="col-9">
+    <a class="h3 text-info text-capitalize" data-toggle="modal" data-target="#producthuntModal{{forloop.counter}}">{{ product.title }}</a>
     <!-- href="{% url 'detailp' product.id %}" -->
-    <p class="h6 font-weight-light m-0">{{ product.product_description }}</p>
+    <p class="font-weight-light m-0 h5 font-weight-normal">{{ product.product_description }}</p>
   </div>
   <div class="col-2">
     <a class="btn btn-md btn-outline-danger btn-block font-weight-bolder" href="javascript:{document.getElementById('upvoting{{ product.id }}').submit()}">
@@ -28,25 +28,29 @@
 {% endfor %}
 
 
+
+
+
+
 {% for product in products.all %}
 		<!-- Portfolio Modals -->
 		<div class="portfolio-modal modal fade bg-transparent" id="producthuntModal{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="producthuntModal{{forloop.counter}}Label" aria-hidden="true">
+      <button type="button" class="close bg-light px-2 rounded-circle" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">
+          <i class="fas fa-times"></i>
+        </span>
+      </button>
 			<div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
 				<div class="modal-content">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">
-							<i class="fas fa-times"></i>
-						</span>
-					</button>
 					<div class="modal-body">
-            <div class="container-fluid bg-transparent">
+            <div class="container-fluid">
               <div class="row pb-2 ">
                 <div class="col-1 px-0">
                   <img class="img-fluid" src="{{ product.icon.url }}" alt="" />
                 </div>
-                <div class="col-10">
-                  <a class="h2" href="{{ product.url }}">{{ product.title }}</a>
-                  <p class="m-0">{{ product.product_description }}</p>
+                <div class="col-11">
+                  <a class="h2 text-capitalize" href="{{ product.url }}">{{ product.title }}</a>
+                  <p class="m-0 h5 font-weight-normal">{{ product.product_description }}</p>
                 </div>
               </div>
               <div class="row pb-3">
