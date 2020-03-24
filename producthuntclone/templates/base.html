@@ -44,7 +44,8 @@
 					<li class="nav-item dropdown mx-0 mx-lg-1">
 						<a class="nav-link dropdown-toggle py-3 px-0 px-lg-3 rounded js-scroll-trigger bounce-left navitems" href="" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user fa-lg" aria-hidden="true"></i></a>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-					    <a class="dropdown-item" href="{% url 'myprofile' user.id %}">My profile</a>
+					    <a class="dropdown-item" data-toggle="modal" data-target="#userModal" style="cursor: pointer;" >My profile</a>
+
 					    <a class="dropdown-item" href="javascript:{document.getElementById('logout').submit()}">Logout</a>
 					    <!-- <a class="dropdown-item" href="#">Something else here</a> -->
 					  </div>
@@ -115,6 +116,68 @@
 		</a>
 	</div>
 
+<!-- user modal -->
+{% if user.is_authenticated %}
+<div class="portfolio-modal modal fade bg-transparent" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
+	<button type="button" class="close bg-light px-2 rounded-circle" data-dismiss="modal" aria-label="Close">
+		<span aria-hidden="true">
+			<i class="fas fa-times"></i>
+		</span>
+	</button>
+	<div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable" role="document">
+		<div class="modal-content">
+			<div class="modal-body py-3">
+				<div class="container-fluid">
+					<p class=" display-4 font-weight-bolder text-center mb-3">My Profile</p>
+
+				  <!-- <form class="" action="{% url 'signup' %}" enctype="multipart/form-data" method="POST"> -->
+				  {% csrf_token %}
+				  <div class="row border mx-3 pt-4">
+								<div class="col-lg-11 mx-2">
+									<!-- <form name="sentMessage" id="contactForm" role="form" autocomplete="off" action="{% url 'home' %}" onsubmit="return validation()" method="post"> -->
+				            <div class="row">
+				              <div class="col-3">
+				                <div class="">
+				                  <img class="img-fluid rounded-circle" style="height: 220px; width: 220px" src="{{ user.profile.image.url }}" alt="" />
+				                </div>
+				              </div>
+				              <div class="col-9 pt-2">
+				    								<p class="h1 font-weight-bolder text-capitalize">{{ user.first_name }}  {{ user.last_name }}</p>
+				    								<p class="h6 text-muted">DOB: {{ user.profile.birth_date }}</p>
+				                    <p class="h5 text-muted">{{ user.email }}</p>
+				                    <hr>
+				                    <div class="row">
+				                      <div class="col-3">
+				                        <p class="h5 pt-2">Username:</p>
+				                      </div>
+				                      <div class="col-9">
+				                        <p class="h5 pt-2">{{ user.username }}</p>
+				                      </div>
+				        						 </div>
+				                    <div class="row">
+				                      <div class="col-3">
+				                        <p class="h5 pt-2">About:</p>
+				                      </div>
+				                      <div class="col-9">
+				                        <p class="h5 pt-2">{{ user.profile.bio }}</p>
+				                      </div>
+				        						 </div>
+				              </div>
+										 </div>
+				            <br>
+				            <div class="">
+				              <a class="btn btn-sm btn-outline-primary float-right font-weight-bolder" href="{% url 'chgprofile' user.id %}">Change username/password</a>
+				            </div>
+				            <br>
+				            <br>
+								</div>
+				      </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
 
 	<!-- Bootstrap core JavaScript -->
 	<script src="https://blackrockdigital.github.io/startbootstrap-freelancer/vendor/jquery/jquery.min.js"></script>

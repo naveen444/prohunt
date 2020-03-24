@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="">
+  <p class=" display-4 font-weight-bolder text-center mb-3">My Profile</p>
+  <div class="row border mx-3 pt-4">
+      <!-- <form name="sentMessage" id="contactForm" role="form" autocomplete="off" action="{% url 'home' %}" onsubmit="return validation()" method="post"> -->
+        <div class="col-9 pt-2">
+          <p class="h1 font-weight-bolder text-capitalize">{{ user.first_name }}  {{ user.last_name }}</p>
+          <p class="h6 text-muted">DOB: {{ user.profile.birth_date }}</p>
+          <p class="h5 text-muted">{{ user.email }}</p>
+          <hr>
+          <!-- autocomplete="off" -->
+          <div class="border p-2 rounded">
+          <form class="" action="{% url 'chgprofile' user.id %}" enctype="multipart/form-data" method="POST" id="chgprfl" autocomplete="off">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-3">
+                <p class="h4 pt-3">Username:</p>
+              </div>
+              <div class="col-9">
+                <div class="control-group">
+                  <div class="form-group floating-label-form-group controls">
+                    <!-- <label>Username</label> -->
+                    <input class="form-control" type="text" name="username" id="username" value="{{ user.username }}" />
+                    <!-- <p class="help-block text-danger" id = "reqUsername"></p> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-3">
+                <p class="h4 pt-3">About:</p>
+              </div>
+              <div class="col-9">
+                <div class="control-group">
+                  <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                    <!-- <label>About</label> -->
+                    <textarea class="form-control h-auto" type="text" name="about" id="about" >{{ user.profile.bio }}</textarea>
+                    <!-- <p class="help-block text-danger" id = "Abt"></p> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-3">
+                <p class="h4 pt-3">Password:</p>
+              </div>
+              <div class="col-9">
+                <div class="control-group">
+                  <div class="form-group floating-label-form-group controls">
+                    <!-- <label>Username</label> -->
+                    <input class="form-control" type="text" name="password" id="password" placeholder="enter password" />
+                    <!-- <p class="help-block text-danger" id = "reqUsername"></p> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="file btn btn-sm btn-primary text-center rounded-circle " style="position: relative; overflow: hidden;">
+              <i class="fa fa-upload" aria-hidden="true"></i>
+              <input type="file" name="pphoto" id="pphoto" style="position: absolute; font-size: 50px; opacity: 0; right: 0; top: 0" />
+            </div>
+            <div class="form-group text-right">
+              <input type="submit" class="btn md-btn btn-outline-dark font-weight-bold btn-md" value="Save"></input>
+            </div>
+          </form>
+          </div>
+          <br>
+        </div>
+        <br>
+        <div class="col-3">
+          <div class="">
+            <img class="img-fluid rounded-circle" style="height: 220px; width: 220px" src="{{ user.profile.image.url }}" alt="" />
+          </div>
+          <br>
+          <p class="h5 help-block text-danger font-weight-bolder" id = "reqUsername">{% if error %}
+            {{error}}
+          {% endif %}</p>
+        </div>
+  </div>
+  {% endblock %}

@@ -43,6 +43,22 @@ def logout(request):
         return redirect('home')
 
 
-def myprofile(request, user_id):
-    user = get_object_or_404(User, pk = user_id)
-    return render(request, 'accounts/myprofile.html', {'user':user})
+def chgprofile(request, user_id):
+    if request.method == 'POST':
+        user = get_object_or_404(User, pk = user_id)
+        if user.check_password(request.POST['password']):
+            user.username = request.POST.get('username')
+            user.profile.bio = request.POST.get('about')
+            if request.FILES['pphoto']:
+                user.profile.image = request.FILES['pphoto']
+            else:
+                user.profile.image = user.profile.image
+            user.save()
+            auth.login(request,user)
+            return redirect('home')
+        else:
+            return render(request,'accounts/chgprofile.html', {'error': 'password didnt matched'})
+        #user has info and wanna make account!
+    else:
+        #user wants to enter info
+        return render(request,'accounts/chgprofile.html')
