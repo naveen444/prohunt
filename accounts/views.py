@@ -33,7 +33,7 @@ def login(request):
             auth.login(request, user)
             return redirect('home')
         else:
-            return render(request,'accounts/login.html',{'error':'user not found!'})
+            return render(request,'accounts/login.html',{'error':'invalid username or password!'})
     else:
         return render(request,'accounts/login.html')
 
@@ -49,10 +49,11 @@ def chgprofile(request, user_id):
         if user.check_password(request.POST['password']):
             user.username = request.POST.get('username')
             user.profile.bio = request.POST.get('about')
-            if request.FILES['pphoto']:
-                user.profile.image = request.FILES['pphoto']
-            else:
-                user.profile.image = user.profile.image
+            try:
+                user.profile.image = request.FILES['photo']
+            except KeyError:
+                pass
+                # user.profile.image = user.profile.image
             user.save()
             auth.login(request,user)
             return redirect('home')
@@ -62,3 +63,16 @@ def chgprofile(request, user_id):
     else:
         #user wants to enter info
         return render(request,'accounts/chgprofile.html')
+
+def chgpassword(request, user_id):
+    if request.method == 'POST':
+        user = get_object_or_404(User, pk = user_id)
+        if user.check_password(request.POST['oldpassword']):
+            user.set_password(request.POST['newpassword'])
+            user.save()
+            auth.logout(request)
+            return render(request,'accounts/login.html')
+        else:
+            return render(request,'accounts/chgpassword.html', {'error': 'password didnt matched'})
+    else:
+        return render(request,'accounts/chgpassword.html')
