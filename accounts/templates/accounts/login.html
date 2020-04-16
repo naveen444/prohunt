@@ -25,12 +25,10 @@
 							</div>
 						</div>
 						<br>
-            <p class="h5 help-block text-danger font-weight-bolder" id = "reqUsername">{% if error %}
-              {{error}}
-            {% endif %}</p>
 						<!-- <div id="success"></div> -->
 						<div class="form-group">
-							<input type="submit" class="btn md-btn btn-outline-dark font-weight-bold btn-lg" value="Login"></input>
+							<input type="submit" class="btn btn-outline-success font-weight-bold btn-lg" value="Login"></input>
+              <a class="btn btn-lg btn-outline-danger font-weight-bolder" href="{% url 'reset_password' %}">Forgot password</a>
 						</div>
           </div>
       </div>

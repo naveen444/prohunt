@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Product, Vote
+from django.contrib import messages
 from django.utils import timezone
 
 def home(request):
@@ -27,7 +28,8 @@ def createp(request):
             product.save()
             return redirect('/products/' + str(product.id))
         else:
-            return render(request, 'products/createp.html',{'error':'All fields are required'})
+            messages.error(request, 'All fields are required !')
+            return render(request, 'products/createp.html')
     else:
         return render(request, 'products/createp.html')
 
@@ -42,7 +44,8 @@ def upvote(request, product_id):
         try:
             vote = Vote.objects.get(productID=product_id, userID=request.user)
             product = get_object_or_404(Product, pk = product_id)
-            return render(request, 'products/detailp.html', {'product':product, 'error': '! you have already voted for this post'})
+            messages.error(request, 'You have already voted for this post!')
+            return render(request, 'products/detailp.html', {'product':product})
         except Vote.DoesNotExist:
             vote = None
             # find product by id and increment
@@ -52,11 +55,3 @@ def upvote(request, product_id):
             vote.save()
             product.save()
             return redirect('/products/' + str(product.id))
-
-
-
-    # if request.method == 'POST':
-    #     product = get_object_or_404(Product, pk = product_id)
-    #     product.votes_total += 1
-    #     product.save()
-    #     return redirect('/products/' + str(product.id))

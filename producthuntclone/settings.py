@@ -128,6 +128,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'producthuntclone/static/')
 ]
 
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 

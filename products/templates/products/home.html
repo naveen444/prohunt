@@ -1,34 +1,86 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% load custom_filters %}
 
+<div class="row justify-content-around">
 
+<div class="col-8 p-2 mx-auto">
 {% for product in products.all %}
-<div class="row m-auto">
-  <div class="col-1 px-0" data-toggle="modal" data-target="#producthuntModal{{forloop.counter}}" style="cursor: pointer;">
-    <!--  onclick="window.location='{% url 'detailp' product.id %}';" -->
-    <img class="img-fluid w-100" src="{{ product.icon.url }}" alt="" />
+
+  <div class="row m-auto">
+    <div class="col-1 px-0" data-toggle="modal" data-target="#producthuntModal{{forloop.counter}}" style="cursor: pointer;">
+      <!--  onclick="window.location='{% url 'detailp' product.id %}';" -->
+      <img class="img-fluid w-100" src="{{ product.icon.url }}" alt="" />
+    </div>
+    <div class="col-8">
+      <a class="h3 text-info text-capitalize" data-toggle="modal" data-target="#producthuntModal{{forloop.counter}}">{{ product.title }}</a>
+      <!-- href="{% url 'detailp' product.id %}" -->
+      <p class="font-weight-light m-0 h5 font-weight-normal">{{ product.product_description }}</p>
+    </div>
+    <div class="col-3">
+      <a class="btn btn-md btn-outline-danger btn-block font-weight-bolder h5" href="javascript:{document.getElementById('upvoting{{ product.id }}').submit()}">
+      <i class="fa fa-caret-up fa-lg" aria-hidden="true"></i>&nbsp upvote &nbsp {{product.votes_total}}</a>
+    </div>
   </div>
-  <div class="col-9">
-    <a class="h3 text-info text-capitalize" data-toggle="modal" data-target="#producthuntModal{{forloop.counter}}">{{ product.title }}</a>
-    <!-- href="{% url 'detailp' product.id %}" -->
-    <p class="font-weight-light m-0 h5 font-weight-normal">{{ product.product_description }}</p>
-  </div>
-  <div class="col-2">
-    <a class="btn btn-md btn-outline-danger btn-block font-weight-bolder" href="javascript:{document.getElementById('upvoting{{ product.id }}').submit()}">
-    <i class="fa fa-caret-up fa-lg" aria-hidden="true"></i>upvote &nbsp &nbsp &nbsp {{product.votes_total}}</a>
+  <br>
+
+  <form class="" id="upvoting{{ product.id }}" action="{% url 'upvote' product.id %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="" value="">
+  </form>
+
+{% endfor %}
+</div>
+{% if user.is_authenticated %}
+<hr style="border: none; border-left: 2px solid black; height: {{ products.count|multiply:'10' }}vh; width: 1px;">
+<div class="col-3 p-0">
+  <div class="m-2">
+    <div class="mb-3">
+      <a class="h4" href="#">Posts that you have created</a>
+    </div>
+    {% for product in products.all %}
+      {% if product.hunter.username == user.username %}
+        <div class="row m-auto">
+          <div class="col-3 px-0" data-toggle="modal" data-target="#producthuntModal{{forloop.counter}}" style="cursor: pointer;">
+            <!--  onclick="window.location='{% url 'detailp' product.id %}';" -->
+            <img class="img-fluid w-100" src="{{ product.icon.url }}" alt="" />
+          </div>
+          <div class="col-4 px-auto">
+            <a class="h4 text-info text-capitalize" data-toggle="modal" data-target="#producthuntModal{{forloop.counter}}">{{ product.title }}</a>
+            <!-- href="{% url 'detailp' product.id %}" -->
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
   </div>
 </div>
-<br>
-
-<form class="" id="upvoting{{ product.id }}" action="{% url 'upvote' product.id %}" method="POST">
-  {% csrf_token %}
-  <input type="hidden" name="" value="">
-</form>
-{% endfor %}
-
-
-
+</div>
+{% else %}
+<hr style="border: none; border-left: 2px solid black; height: {{ products.count|multiply:'10' }}vh; width: 1px;">
+<div class="col-3 p-0">
+  <div class="m-2">
+    <div class="mb-3">
+      <a class="h4" href="#">The posts with most upvotes</a>
+    </div>
+      <!-- <p>{{ product }}</p> -->
+      {% for product in products.all|max_lst %}
+        <div class="row m-auto">
+          <div class="col-3 px-0" data-toggle="modal" data-target="#producthuntModal{{forloop.counter}}" style="cursor: pointer;">
+            <!--  onclick="window.location='{% url 'detailp' product.id %}';" -->
+            <img class="img-fluid w-100" src="{{ product.icon.url }}" alt="" />
+          </div>
+          <div class="col-9 px-auto">
+            <a class="h6 text-info text-capitalize" data-toggle="modal" data-target="#producthuntModal{{forloop.counter}}">{{ product.title }}</a>
+            <!-- href="{% url 'detailp' product.id %}" -->
+          </div>
+        </div>
+        <br>
+      {% endfor %}
+  </div>
+</div>
+</div>
+{% endif %}
 
 
 
@@ -42,7 +94,7 @@
       </button>
 			<div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
 				<div class="modal-content">
-					<div class="modal-body">
+					<div class="modal-body py-4">
             <div class="container-fluid">
               <div class="row pb-2 ">
                 <div class="col-1 px-0">
@@ -70,9 +122,6 @@
                     <i class="fa fa-caret-up fa-lg" aria-hidden="true"></i>upvote &nbsp &nbsp &nbsp {{product.votes_total}}</a>
                   </div>
                   <br>
-                  <p class="h6 help-block text-danger font-weight-bolder">{% if error %}
-                    {{error}}
-                  {% endif %}</p>
                   <hr>
                   <div class="row-fluid p-1 mx-2">
                     <!-- <p class="d-block h6 text-muted">Hunter</p>
