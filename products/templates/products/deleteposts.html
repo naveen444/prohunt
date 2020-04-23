@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center">
+  <h1 class="">Confirm Delete</h1>
+
+<form class="" action="{% url 'deleteposts' user.id product.id %}" method="POST">
+  {% csrf_token %}
+  <div class="row">
+				<div class="col-lg-8 mx-auto">
+          <p class="h3 lead">Are you sure to delete this product post <u>{{ product.title }}</u></p>
+          <p class="h3 lead">Once you delete you can't undo that.</p>
+						<div class="control-group">
+							<div class="form-group floating-label-form-group controls mb-0 pb-2">
+								<label>Password</label>
+								<input class="form-control font-weight-bold bg-transparent" type="password" name="password" id="password" placeholder="Password" />
+								<p class="help-block text-danger" id = "Password"></p>
+							</div>
+						</div>
+						<br>
+						<!-- <div id="success"></div> -->
+						<div class="form-group">
+							<input type="submit" class="btn btn-outline-danger font-weight-bold btn-lg" value="Delete"></input>
+              <a class="btn btn-lg btn-outline-danger font-weight-bolder" href="{% url 'reset_password' %}">Forgot password</a>
+						</div>
+          </div>
+      </div>
+    </form>
+	</div>
+
+{% endblock %}

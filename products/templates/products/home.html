@@ -37,7 +37,7 @@
 <div class="col-3 p-0">
   <div class="m-2">
     <div class="mb-3">
-      <a class="h4" href="#">Posts that you have created</a>
+      <a class="h4" href="{% url 'user_created_posts' user.id %}">Posts that you have created</a>
     </div>
     {% for product in products.all %}
       {% if product.hunter.username == user.username %}

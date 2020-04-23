@@ -97,6 +97,7 @@ def chgpassword(request, user_id):
             auth.logout(request)
             return render(request,'accounts/login.html')
         else:
-            return render(request,'accounts/chgpassword.html', {'error': 'password didnt matched'})
+            messages.error(request, 'password didnt matched!')
+            return render(request,'accounts/chgpassword.html')
     else:
         return render(request,'accounts/chgpassword.html')

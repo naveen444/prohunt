@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from .models import Product, Vote
 from django.contrib import messages
 from django.utils import timezone
@@ -41,17 +42,43 @@ def detailp(request, product_id):
 @login_required(login_url="/accounts/signup")
 def upvote(request, product_id):
     if request.method == 'POST':
-        try:
-            vote = Vote.objects.get(productID=product_id, userID=request.user)
-            product = get_object_or_404(Product, pk = product_id)
-            messages.error(request, 'You have already voted for this post!')
+        product = get_object_or_404(Product, pk = product_id)
+        if product.hunter.username == request.user.username:
+            messages.error(request, "Creator can't upvote their own post !")
             return render(request, 'products/detailp.html', {'product':product})
-        except Vote.DoesNotExist:
-            vote = None
-            # find product by id and increment
-            product = Product.objects.get(id=product_id)
-            vote = Vote(productID=product, userID=request.user)
-            product.votes_total += 1
-            vote.save()
-            product.save()
-            return redirect('/products/' + str(product.id))
+        else:
+            try:
+                vote = Vote.objects.get(productID=product_id, userID=request.user)
+                messages.error(request, 'You have already voted for this post!')
+                return render(request, 'products/detailp.html', {'product':product})
+            except Vote.DoesNotExist:
+                vote = None
+                # find product by id and increment
+                product = Product.objects.get(id=product_id)
+                vote = Vote(productID=product, userID=request.user)
+                product.votes_total += 1
+                vote.save()
+                product.save()
+                return redirect('/products/' + str(product.id))
+
+@login_required(login_url="/accounts/signup")
+def user_created_posts(request, user_id):
+    user = get_object_or_404(User, pk = user_id)
+    products = Product.objects.all()
+    return render(request, 'products/userposts.html', {'products':products})
+
+
+@login_required(login_url="/accounts/signup")
+def deleteposts(request, user_id, product_id):
+    product = get_object_or_404(Product, pk = product_id)
+    if request.method == 'POST':
+        user = get_object_or_404(User, pk = user_id)
+        if user.check_password(request.POST['password']):
+            product.delete()
+            messages.success(request, 'post deleted successfully!')
+            return redirect('home')
+        else:
+            messages.error(request, 'password is incorrect !')
+            return render(request,'products/deleteposts.html', {'product': product})
+    else:
+        return render(request,'products/deleteposts.html', {'product': product})

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-around border border-danger">
+
+  <div class="col border border-dark p-2 mx-auto">
+    {% for product in products.all %}
+      {% if product.hunter.username == user.username %}
+        <div class="row m-auto">
+          <div class="col-1 px-0" data-toggle="modal" data-target="#productModal{{forloop.counter}}" style="cursor: pointer;">
+            <!--  onclick="window.location='{% url 'detailp' product.id %}';" -->
+            <img class="img-fluid w-100" src="{{ product.icon.url }}" alt="" />
+          </div>
+          <div class="col-9">
+            <a class="h3 text-info text-capitalize" data-toggle="modal" data-target="#productModal{{forloop.counter}}">{{ product.title }}</a>
+            <!-- href="{% url 'detailp' product.id %}" -->
+            <p class="font-weight-light m-0 h5 font-weight-normal">{{ product.product_description }}</p>
+          </div>
+          <div class="col-2 p-auto">
+            <div class="row">
+              <a class="btn btn-md btn-outline-danger disabled btn-block font-weight-bolder h5">
+                <i class="fa fa-caret-up fa-lg" aria-hidden="true"></i>&nbsp upvotes &nbsp {{product.votes_total}}</a>
+            </div>
+            <div class="row">
+              <a class="btn btn-md btn-outline-danger btn-block font-weight-bolder h5" href="{% url 'deleteposts' user.id product.id %}">
+                &nbsp delete &nbsp</a>
+            </div>
+            </div>
+          </div>
+          <br>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+{% for product in products.all %}
+<!-- Portfolio Modals -->
+  {% if product.hunter.username == user.username %}
+    <div class="portfolio-modal modal fade bg-transparent" id="productModal{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="productModal{{forloop.counter}}Label" aria-hidden="true">
+      <button type="button" class="close bg-light px-2 rounded-circle" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">
+          <i class="fas fa-times"></i>
+        </span>
+      </button>
+    	<div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+    		<div class="modal-content">
+    			<div class="modal-body py-4">
+            <div class="container-fluid">
+              <div class="row pb-2 ">
+                <div class="col-1 px-0">
+                  <img class="img-fluid" src="{{ product.icon.url }}" alt="" />
+                </div>
+                <div class="col-11">
+                  <a class="h2 text-capitalize" href="{{ product.url }}">{{ product.title }}</a>
+                  <p class="m-0 h5 font-weight-normal">{{ product.product_description }}</p>
+                </div>
+              </div>
+              <div class="row pb-3">
+                <div class="col-9">
+                  <div class="row mb-3">
+                      <img class="img-fluid w-100 h-100" src="{{ product.image.url }}" alt="" />
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <p class="h5 font-weight-normal">{{ product.product_summary|striptags }}</p>
+                    <p class="text-muted h7 font-weight-normal ml-auto"><i class="fa fa-calendar-check" aria-hidden="true"></i>{{ product.pub_date_pretty }}</p>
+                  </div>
+                </div>
+                <div class="col-3 pl-4 ">
+                  <div class="row mx-2">
+                    <a class="btn btn-lg btn-outline-danger disabled btn-block font-weight-bolder">
+                    upvotes &nbsp &nbsp &nbsp {{product.votes_total}}</a>
+                  </div>
+                  <br>
+                  <div class="row mx-2">
+                    <a class="btn btn-lg btn-outline-danger btn-block font-weight-bolder" href="{% url 'deleteposts' user.id product.id %}">
+                    &nbsp Delete &nbsp</a>
+                  </div>
+                  <hr>
+                  <div class="row-fluid p-1 mx-2">
+                    <!-- <p class="d-block h6 text-muted">Hunter</p>
+                    <p class="d-block h4">{{ product.hunter.username }}</p> -->
+                    <p class="d-block h6"><span class="text-muted">Hunter</span>
+                    <br><span class="h4">{{ product.hunter.username }}</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+    			</div>
+    		</div>
+    	</div>
+    </div>
+  {% endif %}
+{% endfor %}
+
+{% endblock %}
