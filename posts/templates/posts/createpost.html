@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load custom_filters %}
+<h3 class="text-center">Let the world know what is it in your mind </h3>
+<form class="" action="{% url 'createpost' %}" enctype="multipart/form-data" method="POST">
+{% csrf_token %}
+<div class="row">
+     <div class="col-lg-10 mx-auto">
+
+         <div class="control-group">
+           <div class="form-group floating-label-form-group controls mb-0">
+             <label>Post summary</label>
+             <textarea  class="form-control font-weight-bold bg-transparent" name="post_summary" id="post_summary" placeholder="Post summary" rows="3" ></textarea>
+             <!-- <p class="help-block text-danger" id = "Pr_summary"></p> -->
+           </div>
+         </div>
+
+         <div class="control-group">
+           <div class="form-group floating-label-form-group controls mb-0">
+             <label>url</label>
+             <textarea  class="form-control font-weight-bold bg-transparent" name="url" id="url" placeholder="URL(if any)" rows="2" ></textarea>
+             <!-- <p class="help-block text-danger" id = "Pr_summary"></p> -->
+           </div>
+         </div>
+         <br>
+         <div class="control-group">
+           <div class="form-group floating-label-form-group controls mb-0">
+             <!-- <label>Product summary</label> -->
+             <p class="h5 text-secondary pb-2">Image(if any):</p><input class="form-control font-weight-bold bg-transparent" type="file" name="Image" id="Image" placeholder="Image if any" />
+             <!-- <p class="help-block text-danger" id = "Pr_summary"></p> -->
+           </div>
+         </div>
+         <br>
+         <!-- <div id="success"></div> -->
+         <div class="form-group text-center">
+           <input type="submit" class="btn md-btn btn-outline-dark font-weight-bold btn-lg" value="Kill it"></input>
+         </div>
+     </div>
+   </div>
+ </form>
+{% endblock %}

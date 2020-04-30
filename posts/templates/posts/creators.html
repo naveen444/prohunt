@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load custom_filters %}
+<h1>Creators </h1>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Dashboard</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Discussions</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Pages</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active border p-2" id="home" role="tabpanel" aria-labelledby="home-tab">
+    <a class="font-weight-bolder h6" href="{% url 'createpost' %}"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp Create a post</a>
+    {% for post in posts.all %}
+      <div class="row p-3 mx-auto">
+        <div class="col-1 p-0">
+          <img class="rounded-circle" style="height:60px; width: 60px;" src="{{ post.user.profile.image.url }}" alt="" />
+        </div>
+        <div class="col-11">
+          <div class="row">
+            <p class="h5">{{ post.user.first_name }}  {{ post.user.last_name }}</p>
+            <p class="text-muted ml-auto">{{ post.pub_date_pretty }}</p>
+          </div>
+          <div class="row">
+            <div class="col-10 px-0">
+              <p class="h4 lead m-1">{{ post.post_summary }}</p>
+            </div>
+            <div class="col-1 p-1">
+              <a class="btn btn-sm btn-outline-light border text-dark rounded btn-block font-weight-bolder h5" href="javascript:{document.getElementById('upvoting{{ post.id }}').submit()}">
+              <i class="fa fa-caret-up fa-lg" aria-hidden="true"></i>&nbsp {{post.votes_total}}</a>
+            </div>
+            <div class="col-1 p-1">
+              <a class="btn btn-sm btn-outline-light border text-dark rounded btn-block font-weight-bolder h5" href="javascript:{document.getElementById('upvoting{{ post.id }}').submit()}">
+              <i class="fa fa-comments-o" aria-hidden="true"></i>&nbsp</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <form class="" id="upvoting{{ post.id }}" action="{% url 'upvotepost' post.id %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="" value="">
+      </form>
+    {% endfor %}
+
+  </div>
+  <div class="tab-pane fade border border-danger p-2" id="profile" role="tabpanel" aria-labelledby="profile-tab">chutiya</div>
+  <div class="tab-pane fade border border-danger p-2" id="contact" role="tabpanel" aria-labelledby="contact-tab">bhadwa</div>
+</div>
+
+{% endblock %}

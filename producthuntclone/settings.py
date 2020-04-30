@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'products.apps.ProductsConfig',
     'accounts.apps.AccountsConfig',
+    'posts.apps.PostsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

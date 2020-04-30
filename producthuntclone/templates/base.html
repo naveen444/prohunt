@@ -11,10 +11,10 @@
 	<title>Producthunt</title>
 
 	<!-- Custom fonts for this theme -->
-	<script src="https://use.fontawesome.com/releases/v5.12.1/js/all.js" crossorigin="anonymous"></script>
+	<!-- <script src="https://use.fontawesome.com/releases/v5.12.1/js/all.js" crossorigin="anonymous"></script> -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 	<link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-
+	<script src="https://kit.fontawesome.com/7e236b4967.js" crossorigin="anonymous"></script>
 	<!-- Theme CSS -->
 	<!-- <link href="https://blackrockdigital.github.io/startbootstrap-freelancer/css/freelancer.min.css" rel="stylesheet"> -->
 	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
@@ -39,14 +39,18 @@
 				</div> -->
         <ul class="navbar-nav ml-auto">
         {% if user.is_authenticated %}
-          <li class="nav-item mx-0 mx-lg-1">
-            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger bounce-left navitems" href="{% url 'createp' %}"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></a>
+					<li class="nav-item mx-3">
+						<!-- style=" border-radius: 50%; width: 40px; height: 40px; background: black; border: 2.5px solid white;" -->
+							<a class="nav-link font-weight-bolder js-scroll-trigger navitems p-1 h3" href="{% url 'creators' %}">C</a>
+					</li>
+          <li class="nav-item mx-3">
+            <a class="nav-link rounded js-scroll-trigger navitems" href="{% url 'createp' %}"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></a>
           </li>
 					<!-- <li class="nav-item mx-0 mx-lg-1">
 						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger bounce-left navitems" href="javascript:{document.getElementById('logout').submit()}">Logout</a>
 					</li> -->
-					<li class="nav-item dropdown mx-0 mx-lg-1">
-						<a class="nav-link dropdown-toggle py-3 px-0 px-lg-3 rounded js-scroll-trigger bounce-left navitems" href="" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user fa-lg" aria-hidden="true"></i></a>
+					<li class="nav-item dropdown mx-2">
+						<a class="nav-link dropdown-toggle rounded js-scroll-trigger navitems" href="" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user fa-lg" aria-hidden="true"></i></a>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 							<a class="dropdown-item disabled" data-toggle="modal" data-target="#userModal" style="cursor: pointer;" >logged in as <b>{{ user.username }}</b></a>
 					    <a class="dropdown-item" data-toggle="modal" data-target="#userModal" style="cursor: pointer;" >My profile</a>
@@ -60,10 +64,10 @@
         </form>
         {% else %}
 					<li class="nav-item mx-0 mx-lg-1">
-						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger bounce-left navitems" href="{% url 'signup' %}">Sign Up</a>
+						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger navitems" href="{% url 'signup' %}">Sign Up</a>
 					</li>
 					<li class="nav-item mx-0 mx-lg-1">
-						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger bounce-left navitems" href="{% url 'login' %}">Login</a>
+						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger navitems" href="{% url 'login' %}">Login</a>
 					</li>
 
         {% endif %}
