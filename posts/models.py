@@ -11,11 +11,31 @@ class Post(models.Model):
     votes_total = models.IntegerField(default = 0)
 
     def postsummary(self):
-        return self.post_summary[:200]
+        return self.post_summary[:300]
 
     def pub_date_pretty(self):
         return self.pub_date.strftime('%e %b %Y')   # pub_date_pretty
 
 class Postvote(models.Model):
+    postID = models.ForeignKey(Post, on_delete=models.CASCADE)
+    userID = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class Comment(models.Model):
+    comment_text = RichTextField()
+    comment_pub_date = models.DateTimeField()
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    votes_total = models.IntegerField(default = 0)
+    dislikes = models.IntegerField(default = 0)
+
+
+    def postsummary(self):
+        return self.post_summary[:300]
+
+    def pub_date_pretty(self):
+        return self.pub_date.strftime('%e %b %Y')
+
+class Commentvote(models.Model):
+    commentID = models.ForeignKey(Comment, on_delete=models.CASCADE)
     postID = models.ForeignKey(Post, on_delete=models.CASCADE)
     userID = models.ForeignKey(User, on_delete=models.CASCADE)

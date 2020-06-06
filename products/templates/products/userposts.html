@@ -2,9 +2,9 @@
 
 {% block content %}
 
-<div class="row justify-content-around border border-danger">
+<div class="row justify-content-around">
 
-  <div class="col border border-dark p-2 mx-auto">
+  <div class="col">
     {% for product in products.all %}
       {% if product.hunter.username == user.username %}
         <div class="row m-auto">
@@ -28,7 +28,7 @@
             </div>
             </div>
           </div>
-          <br>
+          <hr>
         {% endif %}
       {% endfor %}
     </div>

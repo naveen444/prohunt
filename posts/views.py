@@ -1,14 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import Post, Postvote
+from .models import Post, Postvote, Comment, Commentvote
 from django.contrib import messages
 from django.utils import timezone
+from django.http import HttpResponse
+import json
 
 @login_required(login_url="/accounts/signup")
 def creators(request):
     posts = Post.objects
-    return render(request, 'posts/creators.html', {'posts':posts})
+    comments = Comment.objects
+    return render(request, 'posts/creators.html', {'posts':posts, 'comments':comments})
 
 @login_required(login_url="/accounts/signup")
 def createpost(request):
@@ -16,12 +19,15 @@ def createpost(request):
         if request.POST['post_summary'] or request.POST['url'] or request.FILES['Image']:
             post = Post()
             post.post_summary = request.POST['post_summary']
-            if request.POST['url'].startswith('http://') or request.POST['url'].startswith('https://'):
-                post.url = request.POST['url']
+            if request.POST['url']:
+                if request.POST['url'].startswith('http://') or request.POST['url'].startswith('https://'):
+                    post.url = request.POST['url']
+                else:
+                    post.url = 'http://' + request.POST['url']
             else:
-                post.url = 'http://' + request.POST['url']
+                pass
             try:
-                post.image = request.FILES['photo']
+                post.image = request.FILES['Image']
             except KeyError:
                 pass
             post.pub_date = timezone.datetime.now()
@@ -60,3 +66,27 @@ def upvotepost(request, post_id):
                 vote.save()
                 post.save()
                 return redirect('creators')
+
+@login_required(login_url="/accounts/signup")
+def postcomment(request,post_id):
+    if request.method == 'POST':
+        comment_text = request.POST.get('the_comment')
+        response_data = {}
+        post = Post.objects.get(id=post_id)
+        comment = Comment(comment_text= comment_text, comment_pub_date=timezone.datetime.now(), post= post, user=request.user)
+        comment.save()
+
+        response_data['result'] = 'Create post successful!'
+        response_data['text'] = comment.comment_text
+        response_data['created'] = comment.comment_pub_date.strftime('%B %d, %Y %I:%M %p')
+        response_data['user'] = comment.user.username
+
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )
+    else:
+        return HttpResponse(
+            json.dumps({"nothing to see": "this isn't happening"}),
+            content_type="application/json"
+        )

@@ -20,6 +20,7 @@
 	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
 	<!-- <link href="{% static 'css/home.css' %}" rel="stylesheet"> -->
   <link href="{% static 'css/products.css' %}" rel="stylesheet">
+	<link href="{% static 'css/toggle-p.css' %}" rel="stylesheet">
 </head>
 
 <body id="page-top" >
@@ -103,7 +104,7 @@
         {% endfor %}
     {% endif %}
 
-		<div class="container bg-white rounded p-3">
+		<div class="container bg-white border rounded p-3">
       {% block content %}
       {% endblock %}
 		</div>
@@ -201,6 +202,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
 	<!-- Custom scripts for this template -->
 	<script src="{% static 'js/scripts.js' %}"></script>
+	<script src="{% static 'js/togglescript.js' %}"></script>
+	<script src="{% static 'js/commentjs.js' %}"></script>
 	<!-- Contact Form JavaScript -->
 	<!-- <script src="{% static 'js/contact_me.js' %}"></script> -->
 	<!-- <script src="{% static 'js/home.js' %}"></script> -->

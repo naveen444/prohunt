@@ -1,57 +1,227 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% load custom_filters %}
-<h1>Creators </h1>
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-  <li class="nav-item">
-    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Dashboard</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Discussions</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Pages</a>
-  </li>
-</ul>
-<div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active border p-2" id="home" role="tabpanel" aria-labelledby="home-tab">
-    <a class="font-weight-bolder h6" href="{% url 'createpost' %}"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp Create a post</a>
-    {% for post in posts.all %}
-      <div class="row p-3 mx-auto">
+<div class="">
+  <h1>Creators </h1>
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Dashboard</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Pages</a>
+    </li>
+    <li class="nav-item ml-auto">
+      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">your posts</a>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+
+    <!-- dashboard -->
+    <div class="tab-pane fade show active p-2" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <div class="mb-4">
+        <a class="font-weight-bolder h6" href="{% url 'createpost' %}"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp Create a post</a>
+      </div>
+      {% for post in posts.all %}
+      <div class="row mx-auto">
         <div class="col-1 p-0">
           <img class="rounded-circle" style="height:60px; width: 60px;" src="{{ post.user.profile.image.url }}" alt="" />
         </div>
-        <div class="col-11">
+        <div class="col-11 px-auto">
           <div class="row">
-            <p class="h5">{{ post.user.first_name }}  {{ post.user.last_name }}</p>
+            <p class="h5 text-capitalize">{{ post.user.first_name }}  {{ post.user.last_name }}</p>
             <p class="text-muted ml-auto">{{ post.pub_date_pretty }}</p>
           </div>
           <div class="row">
             <div class="col-10 px-0">
-              <p class="h4 lead m-1">{{ post.post_summary }}</p>
+              <div class="">
+                {% if post.image %}
+                <div class="">
+                  <img class="img-fluid w-25" src="{{ post.image.url }}" alt="" data-toggle="modal" data-target="#posthuntModal{{forloop.counter}}" style="cursor: pointer;">
+                </div>
+                {% endif %}
+                {% if post.post_summary %}
+                <p class="h4 lead m-1" >{{ post.postsummary|striptags|safe }}
+                  {% if post.post_summary|length > 300 %}
+                  <a class="text-danger" data-toggle="modal" data-target="#posthuntModal{{forloop.counter}}" style="cursor: pointer;">Read more</a>
+                  {% endif %}
+                </p>
+                {% endif %}
+                {% if post.url %}
+                <a href="{{ post.url }}">{{ post.url }}</a>
+                {% endif %}
+              </div>
             </div>
-            <div class="col-1 p-1">
+            <div class="col-1 p-1 mt-auto">
               <a class="btn btn-sm btn-outline-light border text-dark rounded btn-block font-weight-bolder h5" href="javascript:{document.getElementById('upvoting{{ post.id }}').submit()}">
-              <i class="fa fa-caret-up fa-lg" aria-hidden="true"></i>&nbsp {{post.votes_total}}</a>
+                <i class="far fa-thumbs-up"></i>&nbsp {{post.votes_total}}</a>
+              </div>
+              <div class="col-1 p-1 mt-auto" >
+                <a class="btn btn-sm btn-outline-light border text-dark rounded btn-block font-weight-bolder h5" data-toggle="modal" data-target="#posthuntModal{{forloop.counter}}" style="cursor: pointer;">
+                  <i class="fa fa-comments-o" aria-hidden="true"></i>&nbsp</a>
+                </div>
+              </div>
+
             </div>
-            <div class="col-1 p-1">
-              <a class="btn btn-sm btn-outline-light border text-dark rounded btn-block font-weight-bolder h5" href="javascript:{document.getElementById('upvoting{{ post.id }}').submit()}">
-              <i class="fa fa-comments-o" aria-hidden="true"></i>&nbsp</a>
+          </div>
+          <form class="" id="upvoting{{ post.id }}" action="{% url 'upvotepost' post.id %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="" value="">
+          </form>
+          <hr>
+          {% endfor %}
+        </div>
+
+        <!-- your posts -->
+        <div class="tab-pane fade p-2" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          <div class="mb-4">
+            <a class="font-weight-bolder h6" href="{% url 'createpost' %}"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp Create a post</a>
+          </div>
+          {% for post in posts.all %}
+          {% if post.user.username == user.username %}
+          <div class="row mx-auto">
+            <div class="col-1 p-0">
+              <img class="rounded-circle" style="height:60px; width: 60px;" src="{{ post.user.profile.image.url }}" alt="" />
             </div>
+            <div class="col-11 px-auto">
+              <div class="row">
+                <p class="h5">{{ post.user.first_name }}  {{ post.user.last_name }}</p>
+                <p class="text-muted ml-auto">{{ post.pub_date_pretty }}</p>
+              </div>
+              <div class="row">
+                <div class="col-10 px-0">
+                  <div class="">
+                    {% if post.image %}
+                    <div class="">
+                      <img class="img-fluid w-25" src="{{ post.image.url }}" alt="" data-toggle="modal" data-target="#posthuntModal{{forloop.counter}}" style="cursor: pointer;">
+                    </div>
+                    {% endif %}
+                    {% if post.post_summary %}
+                    <p class="h4 lead m-1" >{{ post.postsummary|striptags|safe }}
+                      {% if post.post_summary|length > 300 %}
+                      <a class="text-danger" data-toggle="modal" data-target="#posthuntModal{{forloop.counter}}" style="cursor: pointer;">Read more</a>
+                      {% endif %}
+                    </p>
+                    {% endif %}
+                    {% if post.url %}
+                    <a href="{{ post.url }}">{{ post.url }}</a>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="col-1 p-1 mt-auto">
+                  <a class="btn btn-sm btn-outline-light border text-dark rounded btn-block font-weight-bolder h5">
+                    <i class="far fa-thumbs-up"></i>&nbsp {{post.votes_total}}</a>
+                  </div>
+                  <div class="col-1 p-1 mt-auto" >
+                    <a class="btn btn-sm btn-outline-light border text-dark rounded btn-block font-weight-bolder h5" data-toggle="modal" data-target="#posthuntModal{{forloop.counter}}" style="cursor: pointer;">
+                      <i class="fa fa-comments-o" aria-hidden="true"></i>&nbsp</a>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <hr>
+              {% endif %}
+              {% endfor %}
+            </div>
+
+            <div class="tab-pane fade border border-danger p-2" id="contact" role="tabpanel" aria-labelledby="contact-tab">wohi to</div>
           </div>
 
         </div>
-      </div>
-      <form class="" id="upvoting{{ post.id }}" action="{% url 'upvotepost' post.id %}" method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="" value="">
-      </form>
-    {% endfor %}
 
-  </div>
-  <div class="tab-pane fade border border-danger p-2" id="profile" role="tabpanel" aria-labelledby="profile-tab">chutiya</div>
-  <div class="tab-pane fade border border-danger p-2" id="contact" role="tabpanel" aria-labelledby="contact-tab">bhadwa</div>
-</div>
+        {% for post in posts.all %}
+        <!-- Portfolio Modals -->
+        <div class="portfolio-modal modal fade bg-transparent" id="posthuntModal{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="posthuntModal{{forloop.counter}}Label" aria-hidden="true">
+          <button type="button" class="close bg-light px-2 rounded-circle" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">
+              <i class="fas fa-times"></i>
+            </span>
+          </button>
+          <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+            <div class="modal-content border-primary" style="border-width:10px;">
+              <div class="modal-header pb-0">
+                <!-- <div class="col-1 px-0"> -->
+                <img class="rounded-circle"  style="height:90px; width: 90px;" src="{{ post.user.profile.image.url }}" alt="" />
+                <!-- </div> -->
+                <div class="col-11 pt-2">
+                  <p class="h2 text-capitalize">{{ post.user.first_name }}  {{ post.user.last_name }}</p>
+                  <p class="text-muted h7 font-weight-normal ml-auto"><i class="far fa-calendar-check"></i>&nbsp{{ post.pub_date_pretty }}</p>
+                  <hr>
+                </div>
+              </div>
+              <div class="modal-body py-0">
+                <div class="container">
+                  <div class="row text-justify" style="display: flex; height: 450px;">
+                    <div class="col-1" style="flex: 1; overflow: auto;">
+                    </div>
+                    <div class="col-11" style="flex: 1; overflow: auto;">
+                      <div class="row p-2">
+                        {% if post.image %}
+                        <div class="mb-3">
+                          <img class="img-fluid" src="{{ post.image.url }}" alt="">
+                        </div>
+                        {% endif %}
+                        {% if post.post_summary %}
+                        <div class="mb-3">
+                          <p class="h5 font-weight-normal">{{ post.postsummary|striptags }}<span id="dots{{forloop.counter}}" style="display:inline;">...</span><span id="more{{ forloop.counter }}" style="display:none">{{ post.post_summary|slice:"300:"|striptags }}</span>
+                            {% if post.post_summary|length > 300 %}
+                            <a class="text-danger" id="togglebtn{{forloop.counter}}" onclick="read('dots{{forloop.counter}}','more{{forloop.counter}}','togglebtn{{forloop.counter}}')" style="cursor: pointer;">Read more</a>
+                            {% endif %}
+                          </p>
+                        </div>
+                        {% endif %}
+                        {% if post.url %}
+                        <a href="{{ post.url }}">{{ post.url }}</a>
+                        {% endif %}
+                      </div>
+                      <div class="row p-2">
+                        <div class="col p-0">
+                          <h6 class="text-muted">Comments...</h6>
+                          <hr>
+                          {% for comment in comments.all %}
+                            {% if comment.post.id == post.id %}
+                            <ul>
+                              <!-- style="list-style-image: url({{ comment.user.profile.image.url }}); height:2px; width:2px;" -->
+                              <li>
+                                <p class='h5'>{{comment.user.username}} &nbsp <span class='h6 text-muted'>{{comment.comment_pub_date}}</span></p>
+                                <p class='h5 lead'>{{comment.comment_text}}</p>
+                              </li>
+                            </ul>
+                            {% endif %}
+                          {% endfor %}
+                            <ul class="" id="talk{{post.id}}"></ul>
+                          </div>
 
-{% endblock %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer justify-content-around">
+                  <div class="col-lg-10 col-sm-4 col-md-6 px-0">
+                    <form method="POST" id="postform{{post.id}}">
+                      {% csrf_token %}
+                      <div class="input-group">
+                        <input type="text" class="form-control" id="comment-text{{post.id}}" placeholder="Comment here!" aria-label="reply" required>
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary" id="replybtn{{post.id}}" onclick="getids('{{post.id}}')" type="submit">Reply</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-1 px-0">
+                    <a class="btn btn-md m-0 btn-outline-dark rounded btn-block font-weight-bolder" href="javascript:{document.getElementById('upvoting{{ post.id }}').submit()}">
+                      <i class="far fa-thumbs-up"></i>&nbsp {{post.votes_total}}</a>
+                    </div>
+
+                    <form class="" id="upvoting{{ post.id }}" action="{% url 'upvotepost' post.id %}" method="POST">
+                      {% csrf_token %}
+                      <input type="hidden" name="" value="">
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+
+            {% endblock %}

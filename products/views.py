@@ -50,7 +50,7 @@ def upvote(request, product_id):
             try:
                 vote = Vote.objects.get(productID=product_id, userID=request.user)
                 messages.error(request, 'You have already voted for this post!')
-                return render(request, 'products/detailp.html', {'product':product})
+                return redirect('home')
             except Vote.DoesNotExist:
                 vote = None
                 # find product by id and increment
@@ -59,7 +59,8 @@ def upvote(request, product_id):
                 product.votes_total += 1
                 vote.save()
                 product.save()
-                return redirect('/products/' + str(product.id))
+                messages.success(request, 'upvoted successfully!')
+                return redirect('home')
 
 @login_required(login_url="/accounts/signup")
 def user_created_posts(request, user_id):
