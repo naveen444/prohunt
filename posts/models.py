@@ -39,3 +39,8 @@ class Commentvote(models.Model):
     commentID = models.ForeignKey(Comment, on_delete=models.CASCADE)
     postID = models.ForeignKey(Post, on_delete=models.CASCADE)
     userID = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class Commentdvote(models.Model):
+    commentID = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    postID = models.ForeignKey(Post, on_delete=models.CASCADE)
+    userID = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -179,49 +179,68 @@
                           <h6 class="text-muted">Comments...</h6>
                           <hr>
                           {% for comment in comments.all %}
-                            {% if comment.post.id == post.id %}
-                            <ul>
-                              <!-- style="list-style-image: url({{ comment.user.profile.image.url }}); height:2px; width:2px;" -->
-                              <li>
-                                <p class='h5'>{{comment.user.username}} &nbsp <span class='h6 text-muted'>{{comment.comment_pub_date}}</span></p>
-                                <p class='h5 lead'>{{comment.comment_text}}</p>
-                              </li>
-                            </ul>
-                            {% endif %}
-                          {% endfor %}
-                            <ul class="" id="talk{{post.id}}"></ul>
+                          {% if comment.post.id == post.id %}
+                          <div class="bg-light row m-0">
+                            <!-- style="list-style-image: url({{ comment.user.profile.image.url }}); height:2px; width:2px;" -->
+                            <div class="col-1 p-0">
+                              <img class="rounded w-100 h-75" src="{{ comment.user.profile.image.url }}">
+                            </div>
+                            <div class="col-9 p-3">
+                              <p class='h5'>{{comment.user.username}} &nbsp <span class='h6 text-muted'>{{comment.comment_pub_date}}</span></p>
+                              <p class='h5 lead'>{{comment.comment_text}}</p>
+                            </div>
+                            <div class="col-1 px-3 py-4">
+                              <!-- <p >{{ comment.votes_total }}<a href="javascript:{document.getElementById('upvotingcomment{{ comment.id }}').submit()}""><i class="fa fa-thumbs-o-up fa-lg float-right" area-hidden="true"></i></a></p> -->
+                              <form class="" id="upvotingcomment{{ comment.id }}" action="{% url 'upvotecomment' post.id comment.id %}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="" value="">
+                                <p id="total_upvotes{{comment.id}}">{{ comment.votes_total }}</p>
+                                <a onclick="upvotecomment({{post.id}},{{comment.id}},{{comment.votes_total}} )" id="abtn{{comment.id}}" type="submit"><i class="fa fa-thumbs-o-up fa-lg float-right" area-hidden="true"></i></a>
+                              </form>
+                            </div>
+                            <div class="col-1 px-3 py-4">
+                              <p>{{ comment.dislikes }}<a href="javascript:{document.getElementById('downvotingcomment{{ comment.id }}').submit()}""><i class="fa fa-thumbs-o-down fa-lg float-right" area-hidden="true"></i></a></p>
+                              <form class="" id="downvotingcomment{{ comment.id }}" action="{% url 'dislikecomment' post.id comment.id %}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="" value="">
+                              </form>
+                            </div>
                           </div>
-
+                          {% endif %}
+                          {% endfor %}
+                          <div class="bg-light row m-0" id="talk{{post.id}}"></div>
                         </div>
+
                       </div>
                     </div>
-                  </div>
-                </div>
-                <div class="modal-footer justify-content-around">
-                  <div class="col-lg-10 col-sm-4 col-md-6 px-0">
-                    <form method="POST" id="postform{{post.id}}">
-                      {% csrf_token %}
-                      <div class="input-group">
-                        <input type="text" class="form-control" id="comment-text{{post.id}}" placeholder="Comment here!" aria-label="reply" required>
-                        <div class="input-group-append">
-                          <button class="btn btn-outline-secondary" id="replybtn{{post.id}}" onclick="getids('{{post.id}}')" type="submit">Reply</button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                  <div class="col-1 px-0">
-                    <a class="btn btn-md m-0 btn-outline-dark rounded btn-block font-weight-bolder" href="javascript:{document.getElementById('upvoting{{ post.id }}').submit()}">
-                      <i class="far fa-thumbs-up"></i>&nbsp {{post.votes_total}}</a>
-                    </div>
-
-                    <form class="" id="upvoting{{ post.id }}" action="{% url 'upvotepost' post.id %}" method="POST">
-                      {% csrf_token %}
-                      <input type="hidden" name="" value="">
-                    </form>
                   </div>
                 </div>
               </div>
-            </div>
-            {% endfor %}
+              <div class="modal-footer justify-content-around">
+                <div class="col-lg-10 col-sm-4 col-md-6 px-0">
+                  <form method="POST" id="postform{{post.id}}">
+                    {% csrf_token %}
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="comment-text{{post.id}}" placeholder="Comment here!" aria-label="reply" required>
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" id="replybtn{{post.id}}" onclick="getids('{{post.id}}')" type="submit">Reply</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="col-1 px-0">
+                  <a class="btn btn-md m-0 btn-outline-dark rounded btn-block font-weight-bolder" href="javascript:{document.getElementById('upvoting{{ post.id }}').submit()}">
+                    <i class="far fa-thumbs-up"></i>&nbsp {{post.votes_total}}</a>
+                  </div>
 
-            {% endblock %}
+                  <form class="" id="upvoting{{ post.id }}" action="{% url 'upvotepost' post.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="" value="">
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+
+          {% endblock %}

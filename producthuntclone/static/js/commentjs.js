@@ -2,6 +2,7 @@ var postformid;
 var replybtnid;
 var cmtext;
 var talkid;
+var abtnid;
 
 function getids(postid){
   console.log(postid)
@@ -32,7 +33,14 @@ function create_comment(postid) {
         success : function(json) {
             $(cmtext).val(''); // remove the value from the input
             console.log(json); // log the returned json to the console
-            $(talkid).prepend("<li><p class='h5'>"+json.user+"&nbsp <span class='h6 text-muted'> "+json.created+"</span></p> <p class='h5 lead'>"+json.text+"</p></li>");
+            $(talkid).prepend(
+              "<div class='col-1 p-0'><img class='rounded w-100 h-75' src='"+ json.image +
+              "'></div><div class='col-9 p-3'><p class='h5'>" +json.user +
+              " &nbsp <span class='h6 text-muted'>" + json.created +
+              "</span></p><p class='h5 lead'>"+ json.text +
+              "</p></div><div class='col-1 px-3 py-4'><p>"+ json.likes +
+              "<i class='fa fa-thumbs-o-up fa-lg float-right' area-hidden='true'></i></p></div><div class='col-1 px-3 py-4'><p>"+ json.dislikes +
+              "<i class='fa fa-thumbs-o-down fa-lg float-right' area-hidden='true'></i></p></div>");
             console.log("success"); // another sanity check
         },
 
@@ -46,6 +54,48 @@ function create_comment(postid) {
 };
 
 
+function upvotecomment(postid, commentid, votes_total){
+  console.log(postid,commentid)
+  abtnid = '#abtn'+commentid
+  upvotingcmt = '#upvotingcomment'+commentid
+  $(upvotingcmt).one('submit', function(event){
+      event.preventDefault();
+      console.log(event)
+      console.log("form submitted!")  // sanity check
+      upvotecomment(postid, commentid, votes_total);
+  });
+}
+
+// AJAX for posting
+function upvotecomment(postid, commentid, votes_total) {
+    console.log("upvote comment is working!") // sanity check
+    console.log(postid)
+    console.log(commentid)
+    console.log(votes_total)
+    totalupvotes = '#total_upvotes'+commentid
+    $.ajax({
+        url : "upvotecomment/"+postid+"/"+commentid, // the endpoint
+        type : "POST", // http method
+        // data : { the_comment : $(cmtext).val() }, // data sent with the post request
+
+        // handle a successful response
+        success : function(json) {
+            // $(cmtext).val(''); // remove the value from the input
+            votes_total += 1;
+            console.log(json); // log the returned json to the console
+            $(totalupvotes).text(votes_total);
+            // $(talkid).prepend();
+            console.log("success"); // another sanity check
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+            $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+        }
+    });
+};
 
 
 $(function() {
