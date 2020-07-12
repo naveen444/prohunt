@@ -11,7 +11,8 @@ import json
 def creators(request):
     posts = Post.objects
     comments = Comment.objects
-    return render(request, 'posts/creators.html', {'posts':posts, 'comments':comments})
+    postvotes = Postvote.objects
+    return render(request, 'posts/creators.html', {'posts':posts, 'comments':comments, 'postvotes': postvotes})
 
 @login_required(login_url="/accounts/signup")
 def createpost(request):
@@ -49,23 +50,42 @@ def detailedpost(request, post_id):
 def upvotepost(request, post_id):
     if request.method == 'POST':
         post = get_object_or_404(Post, pk = post_id)
-        if post.user.username == request.user.username:
-            messages.error(request, "Creator can't upvote their own post !")
-            return redirect('creators')
-        else:
-            try:
-                vote = Postvote.objects.get(postID=post_id, userID=request.user)
-                messages.error(request, 'You have already voted for this post!')
-                return redirect('creators')
-            except Postvote.DoesNotExist:
-                vote = None
-                # find product by id and increment
-                post = Post.objects.get(id=post_id)
-                vote = Postvote(postID=post, userID=request.user)
-                post.votes_total += 1
-                vote.save()
-                post.save()
-                return redirect('creators')
+        response_data = {}
+        try:
+            vote = Postvote.objects.get(postID=post_id, userID=request.user)
+            post = Post.objects.get(id=post_id)
+            post.votes_total -= 1
+            vote.delete()
+            post.save()
+
+            response_data['result'] = 'deleted'
+            response_data['votes_total'] = post.votes_total
+
+            return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+            )
+        except Postvote.DoesNotExist:
+            vote = None
+            # find product by id and increment
+            post = Post.objects.get(id=post_id)
+            vote = Postvote(postID=post, userID=request.user)
+            post.votes_total += 1
+            vote.save()
+            post.save()
+            
+            response_data['result'] = 'upvoted'
+            response_data['votes_total'] = post.votes_total
+
+            return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+            )
+    else:
+        return HttpResponse(
+        json.dumps({"nothing to see": "this isn't happening"}),
+        content_type="application/json"
+        )
 
 @login_required(login_url="/accounts/signup")
 def postcomment(request,post_id):
@@ -101,58 +121,70 @@ def upvotecomment(request, post_id, comment_id):
         post = get_object_or_404(Post, pk = post_id)
         comment = get_object_or_404(Comment, pk = comment_id)
         response_data = {}
-        if comment.user.username == request.user.username:
-            messages.error(request, "Commenter can't upvote their own post !")
-            return redirect('creators')
-        else:
-            try:
-                vote = Commentvote.objects.get(commentID=comment, postID=post, userID=request.user)
-                messages.error(request, 'You have already voted for this comment!')
-                return redirect('creators')
-            except Commentvote.DoesNotExist:
-                vote = None
-                # find product by id and increment
-                post = Post.objects.get(id=post_id)
-                # find comment by id and increment
-                comment = Comment.objects.get(id=comment_id)
-                vote = Commentvote(commentID=comment, postID=post, userID=request.user)
-                comment.votes_total += 1
-                vote.save()
-                comment.save()
+        try:
+            vote = Commentvote.objects.get(commentID=comment, postID=post, userID=request.user)
+            response_data['result'] = 'error'
+            response_data['error'] = 'You have already voted for this comment!'
 
-                response_data['result'] = 'upvoted successfully!'
+            return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json")
+        except Commentvote.DoesNotExist:
+            vote = None
+            # find product by id and increment
+            post = Post.objects.get(id=post_id)
+            # find comment by id and increment
+            comment = Comment.objects.get(id=comment_id)
+            vote = Commentvote(commentID=comment, postID=post, userID=request.user)
+            comment.votes_total += 1
+            vote.save()
+            comment.save()
 
-                return HttpResponse(
-                    json.dumps(response_data),
-                    content_type="application/json"
-                )
-            else:
-                return HttpResponse(
-                    json.dumps({"nothing to see": "this isn't happening"}),
-                    content_type="application/json"
-                )
+            response_data['result'] = 'success'
+
+            return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+            )
+    else:
+        return HttpResponse(
+        json.dumps({"nothing to see": "this isn't happening"}),
+        content_type="application/json"
+        )
 
 @login_required(login_url="/accounts/signup")
 def dislikecomment(request, post_id, comment_id):
     if request.method == 'POST':
         post = get_object_or_404(Post, pk = post_id)
         comment = get_object_or_404(Comment, pk = comment_id)
-        if comment.user.username == request.user.username:
-            messages.error(request, "Commenter can't like or dislike their own post !")
-            return redirect('creators')
-        else:
-            try:
-                vote = Commentdvote.objects.get(commentID=comment, postID=post, userID=request.user)
-                messages.error(request, 'You have already disliked this comment!')
-                return redirect('creators')
-            except Commentdvote.DoesNotExist:
-                vote = None
-                # find product by id and increment
-                post = Post.objects.get(id=post_id)
-                # find comment by id and increment
-                comment = Comment.objects.get(id=comment_id)
-                vote = Commentdvote(commentID=comment, postID=post, userID=request.user)
-                comment.dislikes += 1
-                vote.save()
-                comment.save()
-                return redirect('creators')
+        response_data = {}
+        try:
+            vote = Commentdvote.objects.get(commentID=comment, postID=post, userID=request.user)
+            response_data['result'] = 'error'
+            response_data['error'] = 'You have already voted for this comment!'
+
+            return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json")
+        except Commentdvote.DoesNotExist:
+            vote = None
+            # find product by id and increment
+            post = Post.objects.get(id=post_id)
+            # find comment by id and increment
+            comment = Comment.objects.get(id=comment_id)
+            vote = Commentdvote(commentID=comment, postID=post, userID=request.user)
+            comment.dislikes += 1
+            vote.save()
+            comment.save()
+
+            response_data['result'] = 'downvoted successfully!'
+
+            return HttpResponse(
+                json.dumps(response_data),
+                content_type="application/json"
+            )
+    else:
+        return HttpResponse(
+            json.dumps({"nothing to see": "this isn't happening"}),
+            content_type="application/json"
+        )

@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 
 class Post(models.Model):
-    post_summary = RichTextField()  # body
+    post_summary = RichTextField(null=True, blank=True)  # body
     url = models.TextField(default='', null=True, blank=True)   #url
     image = models.ImageField(upload_to = 'images/', null=True, blank=True)    # image
     pub_date = models.DateTimeField()   # pub_date

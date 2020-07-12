@@ -1,8 +1,66 @@
-var postformid;
-var replybtnid;
-var cmtext;
-var talkid;
-var abtnid;
+var postformid, replybtnid, cmtext, talkid, upvotingcmt, downvotingcmt, errordiv, upvoting;
+
+function upvotepost(postid){
+  console.log(postid)
+  upvoting = '#upvoting'+postid
+
+  $(upvoting).one('submit', function(event){
+      event.preventDefault();
+      console.log(event)
+      console.log("form submitted!")  // sanity check
+      upvotingpost(postid);
+  });
+}
+
+// AJAX for posting
+function upvotingpost(postid) {
+    console.log("upvoting post is working!") // sanity check
+    console.log(postid)
+    var i = document.getElementsByName('itag'+postid)
+    var p_post = '#p_post'+postid
+    // errordiv = '#error'+commentid
+
+    $.ajax({
+        url : "upvotepost/"+postid, // the endpoint
+        type : "POST", // http method
+
+        // handle a successful response
+        success : function(json) {
+          if (json.result == 'upvoted') {
+            console.log('upvoted');
+            $(i).toggleClass("far fas")
+            console.log(json.votes_total); // log the returned json to the console
+            $(p_post).text(json.votes_total);
+          }
+          else if (json.result == 'deleted') {
+            console.log("deleted");
+            $(i).toggleClass("fas far")
+            console.log(json.votes_total); // log the returned json to the console
+            $(p_post).text(json.votes_total);
+          }
+          else {
+            console.log('error');
+            alert('error');
+            // $(errordiv).fadeIn();
+            // $(errordiv).prepend(
+            //   "<p class='h5 lead text-danger'>"+ json.error + "</p>");
+            // setTimeout(function() {
+            //   $(errordiv).fadeOut('fast',function(){
+            //     $(errordiv).empty();
+            //   });
+            // }, 4000);
+          }
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+            console.log('error');
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+        }
+    });
+};
+
+
 
 function getids(postid){
   console.log(postid)
@@ -56,42 +114,104 @@ function create_comment(postid) {
 
 function upvotecomment(postid, commentid, votes_total){
   console.log(postid,commentid)
-  abtnid = '#abtn'+commentid
   upvotingcmt = '#upvotingcomment'+commentid
+
   $(upvotingcmt).one('submit', function(event){
       event.preventDefault();
       console.log(event)
       console.log("form submitted!")  // sanity check
-      upvotecomment(postid, commentid, votes_total);
+      upvotingcomment(postid, commentid, votes_total);
   });
 }
 
 // AJAX for posting
-function upvotecomment(postid, commentid, votes_total) {
+function upvotingcomment(postid, commentid, votes_total) {
     console.log("upvote comment is working!") // sanity check
     console.log(postid)
     console.log(commentid)
     console.log(votes_total)
     totalupvotes = '#total_upvotes'+commentid
+    errordiv = '#error'+commentid
+
     $.ajax({
         url : "upvotecomment/"+postid+"/"+commentid, // the endpoint
         type : "POST", // http method
-        // data : { the_comment : $(cmtext).val() }, // data sent with the post request
 
         // handle a successful response
         success : function(json) {
-            // $(cmtext).val(''); // remove the value from the input
+          if (json.result == 'success') {
             votes_total += 1;
-            console.log(json); // log the returned json to the console
+            console.log(json.result); // log the returned json to the console
             $(totalupvotes).text(votes_total);
-            // $(talkid).prepend();
-            console.log("success"); // another sanity check
+          }
+          else {
+            console.log('error');
+            $(errordiv).fadeIn();
+            $(errordiv).prepend(
+              "<p class='h5 lead text-danger'>"+ json.error + "</p>");
+            setTimeout(function() {
+              $(errordiv).fadeOut('fast',function(){
+                $(errordiv).empty();
+              });
+            }, 4000);
+          }
         },
 
         // handle a non-successful response
         error : function(xhr,errmsg,err) {
-            $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
-                " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+            console.log('error');
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+        }
+    });
+};
+
+
+function downvotecomment(postid, commentid, total_dislikes){
+  console.log(postid,commentid)
+  downvotingcmt = '#downvotingcomment'+commentid
+
+  $(downvotingcmt).one('submit', function(event){
+      event.preventDefault();
+      console.log(event)
+      console.log("form submitted!")  // sanity check
+      downvotingcomment(postid, commentid, total_dislikes);
+  });
+}
+
+// AJAX for posting
+function downvotingcomment(postid, commentid, total_dislikes) {
+    console.log("downvote comment is working!") // sanity check
+    console.log(postid)
+    console.log(commentid)
+    console.log(total_dislikes)
+    totaldownvotes = '#total_downvotes'+commentid
+    errordiv = '#error'+commentid
+
+    $.ajax({
+        url : "dislikecomment/"+postid+"/"+commentid, // the endpoint
+        type : "POST", // http method
+
+        // handle a successful response
+        success : function(json) {
+          if (json.result == 'success') {
+            total_dislikes += 1;
+            console.log(json.result); // log the returned json to the console
+            $(totaldownvotes).text(total_dislikes);
+          }
+          else {
+            console.log('error');
+            $(errordiv).fadeIn();
+            $(errordiv).prepend("<p class='h5 lead text-danger'>"+ json.error + "</p>");
+            setTimeout(function() {
+              $(errordiv).fadeOut('fast',function(){
+                $(errordiv).empty();
+              });
+            }, 4000);
+          }
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
             console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
         }
     });
