@@ -76,7 +76,7 @@
               {% endfor %}
               {% endwith %}
               <a class="btn btn-md btn-outline-light border text-dark rounded btn-block font-weight-bolder h5" data-toggle="modal" data-target="#posthuntModal{{forloop.counter}}" style="cursor: pointer;">
-              &nbsp <i class="fa fa-comments-o" aria-hidden="true"></i>&nbsp
+              &nbsp <i class="fa fa-comments-o" aria-hidden="true"></i>&nbsp {{ post.total_comments }}
               </a>
             </div>
           </div>

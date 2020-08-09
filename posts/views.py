@@ -95,6 +95,8 @@ def postcomment(request,post_id):
         post = Post.objects.get(id=post_id)
         comment = Comment(comment_text= comment_text, comment_pub_date=timezone.datetime.now(), post= post, user=request.user)
         comment.save()
+        post.total_comments += 1
+        post.save() 
 
         response_data['result'] = 'Create post successful!'
         response_data['text'] = comment.comment_text

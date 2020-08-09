@@ -9,6 +9,7 @@ class Post(models.Model):
     pub_date = models.DateTimeField()   # pub_date
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     votes_total = models.IntegerField(default = 0)
+    total_comments = models.IntegerField(default = 0)
     
     def postsummary(self):
         return self.post_summary[:300]
