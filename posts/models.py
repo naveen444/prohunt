@@ -9,7 +9,7 @@ class Post(models.Model):
     pub_date = models.DateTimeField()   # pub_date
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     votes_total = models.IntegerField(default = 0)
-
+    
     def postsummary(self):
         return self.post_summary[:300]
 
@@ -26,7 +26,6 @@ class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     votes_total = models.IntegerField(default = 0)
-    dislikes = models.IntegerField(default = 0)
 
 
     def postsummary(self):
@@ -36,11 +35,6 @@ class Comment(models.Model):
         return self.pub_date.strftime('%e %b %Y')
 
 class Commentvote(models.Model):
-    commentID = models.ForeignKey(Comment, on_delete=models.CASCADE)
-    postID = models.ForeignKey(Post, on_delete=models.CASCADE)
-    userID = models.ForeignKey(User, on_delete=models.CASCADE)
-
-class Commentdvote(models.Model):
     commentID = models.ForeignKey(Comment, on_delete=models.CASCADE)
     postID = models.ForeignKey(Post, on_delete=models.CASCADE)
     userID = models.ForeignKey(User, on_delete=models.CASCADE)

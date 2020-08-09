@@ -8,3 +8,12 @@ register = template.Library()
 def update_variable(value):
     """Allows to update existing variable in template"""
     return value
+
+@register.filter(name='increment_variable')
+def increment_variable(value):
+    """Allows to update existing variable in template"""
+    print(value)
+    value =int(value)+1
+    print(value)
+    input("above line??")
+    return value

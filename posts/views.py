@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import Post, Postvote, Comment, Commentvote, Commentdvote
+from .models import Post, Postvote, Comment, Commentvote
 from django.contrib import messages
 from django.utils import timezone
 from django.http import HttpResponse
@@ -73,7 +73,7 @@ def upvotepost(request, post_id):
             post.votes_total += 1
             vote.save()
             post.save()
-            
+
             response_data['result'] = 'upvoted'
             response_data['votes_total'] = post.votes_total
 
@@ -101,8 +101,8 @@ def postcomment(request,post_id):
         response_data['created'] = comment.comment_pub_date.strftime('%B %d, %Y %I:%M %p')
         response_data['user'] = comment.user.username
         response_data['likes'] = comment.votes_total
-        response_data['dislikes'] = comment.dislikes
         response_data['image'] = comment.user.profile.image.url
+        response_data['commentid'] = comment.id
 
         return HttpResponse(
             json.dumps(response_data),
@@ -141,6 +141,7 @@ def upvotecomment(request, post_id, comment_id):
             comment.save()
 
             response_data['result'] = 'success'
+            response_data['votes_total'] = comment.votes_total
 
             return HttpResponse(
             json.dumps(response_data),
@@ -150,41 +151,4 @@ def upvotecomment(request, post_id, comment_id):
         return HttpResponse(
         json.dumps({"nothing to see": "this isn't happening"}),
         content_type="application/json"
-        )
-
-@login_required(login_url="/accounts/signup")
-def dislikecomment(request, post_id, comment_id):
-    if request.method == 'POST':
-        post = get_object_or_404(Post, pk = post_id)
-        comment = get_object_or_404(Comment, pk = comment_id)
-        response_data = {}
-        try:
-            vote = Commentdvote.objects.get(commentID=comment, postID=post, userID=request.user)
-            response_data['result'] = 'error'
-            response_data['error'] = 'You have already voted for this comment!'
-
-            return HttpResponse(
-            json.dumps(response_data),
-            content_type="application/json")
-        except Commentdvote.DoesNotExist:
-            vote = None
-            # find product by id and increment
-            post = Post.objects.get(id=post_id)
-            # find comment by id and increment
-            comment = Comment.objects.get(id=comment_id)
-            vote = Commentdvote(commentID=comment, postID=post, userID=request.user)
-            comment.dislikes += 1
-            vote.save()
-            comment.save()
-
-            response_data['result'] = 'downvoted successfully!'
-
-            return HttpResponse(
-                json.dumps(response_data),
-                content_type="application/json"
-            )
-    else:
-        return HttpResponse(
-            json.dumps({"nothing to see": "this isn't happening"}),
-            content_type="application/json"
         )

@@ -85,7 +85,7 @@ function create_comment(postid) {
     $.ajax({
         url : "create_comment/"+postid, // the endpoint
         type : "POST", // http method
-        data : { the_comment : $(cmtext).val() }, // data sent with the post request
+        data : { the_comment : $(cmtext).val()}, // data sent with the post request
 
         // handle a successful response
         success : function(json) {
@@ -93,12 +93,14 @@ function create_comment(postid) {
             console.log(json); // log the returned json to the console
             $(talkid).prepend(
               "<div class='col-1 p-0'><img class='rounded w-100 h-75' src='"+ json.image +
-              "'></div><div class='col-9 p-3'><p class='h5'>" +json.user +
+              "'></div><div class='col-10 p-3'><p class='h5'>" +json.user +
               " &nbsp <span class='h6 text-muted'>" + json.created +
               "</span></p><p class='h5 lead'>"+ json.text +
-              "</p></div><div class='col-1 px-3 py-4'><p>"+ json.likes +
-              "<i class='fa fa-thumbs-o-up fa-lg float-right' area-hidden='true'></i></p></div><div class='col-1 px-3 py-4'><p>"+ json.dislikes +
-              "<i class='fa fa-thumbs-o-down fa-lg float-right' area-hidden='true'></i></p></div>");
+              "</div><div class='col-1 p-1 my-auto'><form' id='upvotingcomment{{"+ json.commentid +
+              "}}' method='POST'><button class='btn btn-md btn-outline-danger btn-block p-auto' id='abtn{{"+json.commentid+
+              "}}' onclick='upvotecomment({{"+postid+"}},{{"+json.commentid+"}})' type='submit'><p id='total_upvotes{{"+json.commentid+
+              "}}' class='d-inline font-weight-bolder'>"+ json.likes +
+              "</p><i class='fa fa-thumbs-o-up fa-md p-1 float-right' area-hidden='true'></i></button></form></div></div>");
             console.log("success"); // another sanity check
         },
 
@@ -112,7 +114,7 @@ function create_comment(postid) {
 };
 
 
-function upvotecomment(postid, commentid, votes_total){
+function upvotecomment(postid, commentid){
   console.log(postid,commentid)
   upvotingcmt = '#upvotingcomment'+commentid
 
@@ -120,16 +122,15 @@ function upvotecomment(postid, commentid, votes_total){
       event.preventDefault();
       console.log(event)
       console.log("form submitted!")  // sanity check
-      upvotingcomment(postid, commentid, votes_total);
+      upvotingcomment(postid, commentid);
   });
 }
 
 // AJAX for posting
-function upvotingcomment(postid, commentid, votes_total) {
+function upvotingcomment(postid, commentid) {
     console.log("upvote comment is working!") // sanity check
     console.log(postid)
     console.log(commentid)
-    console.log(votes_total)
     totalupvotes = '#total_upvotes'+commentid
     errordiv = '#error'+commentid
 
@@ -140,9 +141,8 @@ function upvotingcomment(postid, commentid, votes_total) {
         // handle a successful response
         success : function(json) {
           if (json.result == 'success') {
-            votes_total += 1;
             console.log(json.result); // log the returned json to the console
-            $(totalupvotes).text(votes_total);
+            $(totalupvotes).text(json.votes_total);
           }
           else {
             console.log('error');
@@ -160,58 +160,6 @@ function upvotingcomment(postid, commentid, votes_total) {
         // handle a non-successful response
         error : function(xhr,errmsg,err) {
             console.log('error');
-            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-        }
-    });
-};
-
-
-function downvotecomment(postid, commentid, total_dislikes){
-  console.log(postid,commentid)
-  downvotingcmt = '#downvotingcomment'+commentid
-
-  $(downvotingcmt).one('submit', function(event){
-      event.preventDefault();
-      console.log(event)
-      console.log("form submitted!")  // sanity check
-      downvotingcomment(postid, commentid, total_dislikes);
-  });
-}
-
-// AJAX for posting
-function downvotingcomment(postid, commentid, total_dislikes) {
-    console.log("downvote comment is working!") // sanity check
-    console.log(postid)
-    console.log(commentid)
-    console.log(total_dislikes)
-    totaldownvotes = '#total_downvotes'+commentid
-    errordiv = '#error'+commentid
-
-    $.ajax({
-        url : "dislikecomment/"+postid+"/"+commentid, // the endpoint
-        type : "POST", // http method
-
-        // handle a successful response
-        success : function(json) {
-          if (json.result == 'success') {
-            total_dislikes += 1;
-            console.log(json.result); // log the returned json to the console
-            $(totaldownvotes).text(total_dislikes);
-          }
-          else {
-            console.log('error');
-            $(errordiv).fadeIn();
-            $(errordiv).prepend("<p class='h5 lead text-danger'>"+ json.error + "</p>");
-            setTimeout(function() {
-              $(errordiv).fadeOut('fast',function(){
-                $(errordiv).empty();
-              });
-            }, 4000);
-          }
-        },
-
-        // handle a non-successful response
-        error : function(xhr,errmsg,err) {
             console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
         }
     });

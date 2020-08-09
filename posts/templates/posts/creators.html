@@ -76,7 +76,8 @@
               {% endfor %}
               {% endwith %}
               <a class="btn btn-md btn-outline-light border text-dark rounded btn-block font-weight-bolder h5" data-toggle="modal" data-target="#posthuntModal{{forloop.counter}}" style="cursor: pointer;">
-              <i class="fa fa-comments-o" aria-hidden="true"></i>&nbsp</a>
+              &nbsp <i class="fa fa-comments-o" aria-hidden="true"></i>&nbsp
+              </a>
             </div>
           </div>
         </div>
@@ -247,26 +248,20 @@
                   <div class="col-1 p-0">
                     <img class="rounded w-100 h-75" src="{{ comment.user.profile.image.url }}">
                   </div>
-                  <div class="col-9 p-3">
+                  <div class="col-10 p-3">
                     <p class='h5'>{{comment.user.username}} &nbsp <span class='h6 text-muted'>{{comment.comment_pub_date}}</span></p>
                     <p class='h5 lead'>{{comment.comment_text}}</p>
                   </div>
                   <div class="col-1 p-1 my-auto ">
                     <form class="" id="upvotingcomment{{ comment.id }}" method="POST">
                       {% csrf_token %}
-                      <button class="btn btn-md btn-outline-danger btn-block p-auto" id="abtn{{comment.id}}" onclick="upvotecomment({{post.id}},{{comment.id}},{{comment.votes_total}} )" type="submit"><p id="total_upvotes{{comment.id}}" class="d-inline font-weight-bolder">{{ comment.votes_total }}</p><i class="fa fa-thumbs-o-up fa-md p-1 float-right" area-hidden="true"></i></button>
-                    </form>
-                  </div>
-                  <div class="col-1 p-1 my-auto">
-                    <form class="" id="downvotingcomment{{ comment.id }}" method="POST">
-                      {% csrf_token %}
-                      <button class="btn btn-md btn-outline-danger btn-block" id="dbtn{{comment.id}}" onclick="downvotecomment({{post.id}},{{comment.id}},{{comment.dislikes}} )" type="submit"><p id="total_upvotes{{comment.id}}" class="d-inline font-weight-bolder">{{ comment.dislikes }}</p><i class="fa fa-thumbs-o-down fa-md float-right p-1" area-hidden="true"></i></button>
+                      <button class="btn btn-md btn-outline-danger btn-block p-auto" id="abtn{{comment.id}}" onclick="upvotecomment({{post.id}},{{comment.id}} )" type="submit"><p id="total_upvotes{{comment.id}}" class="d-inline font-weight-bolder">{{ comment.votes_total }}</p><i class="fa fa-thumbs-o-up fa-md p-1 float-right" area-hidden="true"></i></button>
                     </form>
                   </div>
                 </div>
                 {% endif %}
                 {% endfor %}
-                <div class="bg-light row m-0" id="talk{{post.id}}"></div>
+                <div class="row m-0" id="talk{{post.id}}"></div>
               </div>
 
             </div>
