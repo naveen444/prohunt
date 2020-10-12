@@ -1,0 +1,7 @@
+body{
+  background: url('/static/drawing.svg') no-repeat;
+  /* url(../drawing.svg) */
+  background-color: #e1fbfc;
+  background-size: cover;
+  min-height:100%;
+}

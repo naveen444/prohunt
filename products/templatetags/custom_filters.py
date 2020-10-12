@@ -14,6 +14,10 @@ def multiply(value, arg):
         except Exception:
             return ''
 
+@register.simple_tag
+def update_variable(value):
+    """Allows to update existing variable in template"""
+    return value
 
 @register.filter(expects_localtime=True, is_safe=False)
 def time(value, arg=None):

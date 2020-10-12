@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height:100%">
 
 <head>
 	{% load staticfiles %}
@@ -11,45 +11,39 @@
 	<title>Producthunt</title>
 
 	<!-- Custom fonts for this theme -->
-	<!-- <script src="https://use.fontawesome.com/releases/v5.12.1/js/all.js" crossorigin="anonymous"></script> -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 	<link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 	<script src="https://kit.fontawesome.com/7e236b4967.js" crossorigin="anonymous"></script>
 	<!-- Theme CSS -->
-	<!-- <link href="https://blackrockdigital.github.io/startbootstrap-freelancer/css/freelancer.min.css" rel="stylesheet"> -->
+	<link href="{% static 'css/jquery-ui.min.css' %}" rel="stylesheet">
 	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
-	<!-- <link href="{% static 'css/home.css' %}" rel="stylesheet"> -->
   <link href="{% static 'css/products.css' %}" rel="stylesheet">
 	<link href="{% static 'css/toggle-p.css' %}" rel="stylesheet">
+	<link href="{% static 'css/base.css' %}" rel="stylesheet">
+
 </head>
 
-<body id="page-top" >
-  <!-- style="background-attachment: fixed;" -->
+<body id="page-top">
+	<!-- style="background: url('{% static "drawing.svg" %}'); background-size: cover;" -->
 	<!-- Navigation -->
-	<nav class="navbar navbar-expand-lg fixed-top navbar-fixed-top bg-dark" id="mainNav">
+	<nav class="navbar navbar-expand-lg fixed-top navbar-fixed-top" id="mainNav">
+		<!--  style="background-color: #223127;" -->
 		<div class="container">
-			<a class="navbar-brand js-scroll-trigger brandfont" href="{% url 'home' %}">
-        <img src="{% static 'logo.png' %}" class="w-25 d-inline-block align-top" />rohunt</a>
+			<a class="navbar-brand js-scroll-trigger " href="{% url 'home' %}">
+        <img src="{% static 'logo.png' %}" class="w-25 d-inline-block align-top" /><span>roChase</span></a>
 			<button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-white rounded p-2" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 				Menu
 				<i class="fas fa-bars"></i>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
-				<!-- <div class="ml-auto text-center text-white">
-					<p class="px-0 mb-0 h4 px-lg-3 rounded">{% now "H:i" %}</p>
-				</div> -->
         <ul class="navbar-nav ml-auto">
         {% if user.is_authenticated %}
 					<li class="nav-item mx-3">
-						<!-- style=" border-radius: 50%; width: 40px; height: 40px; background: black; border: 2.5px solid white;" -->
-							<a class="nav-link font-weight-bolder js-scroll-trigger navitems p-1 h3" href="{% url 'creators' %}">C</a>
+							<a class="nav-link font-weight-bolder js-scroll-trigger navitems p-1 h3" href="{% url 'creators' %}" data-toggle="tooltip" data-placement="top" title="Creators">C</a>
 					</li>
           <li class="nav-item mx-3">
             <a class="nav-link rounded js-scroll-trigger navitems" href="{% url 'createp' %}"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></a>
           </li>
-					<!-- <li class="nav-item mx-0 mx-lg-1">
-						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger bounce-left navitems" href="javascript:{document.getElementById('logout').submit()}">Logout</a>
-					</li> -->
 					<li class="nav-item dropdown mx-2">
 						<a class="nav-link dropdown-toggle rounded js-scroll-trigger navitems" href="" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user fa-lg" aria-hidden="true"></i></a>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -78,9 +72,8 @@
 	</nav>
 
 	<!-- Masthead -->
-	<header class="masthead bg-light" style="padding-top: 140px;">
-
-		{% if messages %}
+	<header class="masthead" style="padding-top:120px;" >
+		<!-- {% if messages %}
         {% for message in messages %}
 				<div class="d-flex message justify-content-center mb-3" style="user-select:none;">
 							{% if message.tags == 'success'%}
@@ -102,30 +95,40 @@
 	            {% endif %}
 					</div>
         {% endfor %}
-    {% endif %}
+    {% endif %} -->
 
-		<div class="container bg-white border rounded p-3">
-      {% block content %}
-      {% endblock %}
+		<div class="container">
+			<div class="row" style="margin-bottom: 300px;">
+				<div class="col-lg-8">
+					<p class="h4 text-white font-weight-bolder"><br>
+						Website headers are a central part in designing a website.
+						They play a key role in grabbing the users’ attention and establishing a connection with the website’s visitors.
+						In the following lines, we’ll tackle some header design principles you should be aware of when designing a website header.
+					</p>
+				</div>
+				<div class="col-lg-4">
+
+				</div>
+			</div>
 		</div>
 	</header>
 
-	<section class="page-section bg-light mb-0" id="about">
-    <div class="container">
-
-			<!-- new = {k:v for (k,v) in ds.items() if v=='sam'} -->
-    </div>
-  </section>
+	<section class="" style="min-height:100vh; padding-bottom:20px;">
+		<div class="container rounded p-0">
+			{% block content %}
+			{% endblock %}
+		</div>
+	</section>
 
 
 	<!-- Footer -->
-	<footer class="footer text-center ftr p-0 m-0">
+	<!-- <footer class="footer text-center p-0 m-0" style="background-color: #050A30;">
 		<div class="container">
 		</div>
-	</footer>
+	</footer> -->
 
 	<!-- Copyright Section -->
-	<section class="copyright py-4 text-center text-white">
+	<section class="copyright py-4 text-center text-white" style="background-color:#223127;">
 		<div class="container">
 			<small>Copyright &copy; Naveen {% now "Y" %}</small>
 		</div>
@@ -152,7 +155,6 @@
 				<div class="container-fluid">
 					<p class=" display-4 font-weight-bolder text-center mb-3">My Profile</p>
 
-				  <!-- <form class="" action="{% url 'signup' %}" enctype="multipart/form-data" method="POST"> -->
 				  {% csrf_token %}
 					<div class="row border mx-3 py-4">
 						<div class="col-3">
@@ -197,13 +199,16 @@
 
 	<!-- Bootstrap core JavaScript -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+	<script src="{% static 'js/jquery-ui.min.js' %}"></script>
 	<!-- Plugin JavaScript -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+
 	<!-- Custom scripts for this template -->
 	<script src="{% static 'js/scripts.js' %}"></script>
 	<script src="{% static 'js/togglescript.js' %}"></script>
 	<script src="{% static 'js/commentjs.js' %}"></script>
+	<script src="{% static 'js/products.js' %}"></script>
 	<!-- Contact Form JavaScript -->
 	<!-- <script src="{% static 'js/contact_me.js' %}"></script> -->
 	<!-- <script src="{% static 'js/home.js' %}"></script> -->

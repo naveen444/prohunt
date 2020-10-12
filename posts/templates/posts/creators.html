@@ -4,18 +4,19 @@
 {% load custom_posts_filters %}
 
 <div class="">
-  <h1>Creators </h1>
-  <ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item">
-      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#dashboard" role="tab" aria-controls="home" aria-selected="true">Dashboard</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#liked" role="tab" aria-controls="contact" aria-selected="false">Liked by you</a>
-    </li>
-    <li class="nav-item ml-auto">
-      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#yourposts" role="tab" aria-controls="profile" aria-selected="false">your posts</a>
-    </li>
-  </ul>
+  <p class="h1 rounded p-2 shadow bg-white text-center" style="color:#18B495;">Creators </p>
+  <div class="border rounded px-2 py-3 mt-3 bg-white shadow-lg" id="myTab">
+    <ul class="nav nav-tabs"  role="tablist">
+      <li class="nav-item ">
+        <a class="nav-link  active font-weight-bolder h6" id="home-tab" data-toggle="tab" href="#dashboard" role="tab" aria-controls="home" aria-selected="true">Dashboard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link font-weight-bolder h6" id="contact-tab" data-toggle="tab" href="#liked" role="tab" aria-controls="contact" aria-selected="false">Liked by you</a>
+      </li>
+      <li class="nav-item ml-auto">
+        <a class="nav-link font-weight-bolder h6" id="profile-tab" data-toggle="tab" href="#yourposts" role="tab" aria-controls="profile" aria-selected="false">your posts</a>
+      </li>
+    </ul>
 
 
   <div class="tab-content" id="myTabContent">
@@ -171,12 +172,28 @@
                   {% endif %}
                 </div>
               </div>
-              <div class="col-1 p-1 mt-auto">
-                <a class="btn btn-sm btn-outline-light border text-dark rounded btn-block font-weight-bolder h5" >
-                <i class="far fa-thumbs-up"></i>&nbsp {{p.postID.votes_total}}</a>
-              </div>
-              <div class="col-1 p-1 mt-auto" >
-                <a class="btn btn-sm btn-outline-light border text-dark rounded btn-block font-weight-bolder h5" data-toggle="modal" data-target="#posthuntModal{{p.postID.id}}" style="cursor: pointer;">
+              <div class="col-2 p-1 mt-auto">
+                {% with isfound=False %}
+                {% for vote in postvotes.all %}
+                {% if user.id == vote.userID.id and p.postID.id == vote.postID.id %}
+                  <form class="" id="upvoting{{ p.postID.id }}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-md btn-outline-light border text-dark btn-block font-weight-bolder h5 p-auto" onclick="upvotepost({{p.postID.id}})">
+                    <i class="fas fa-thumbs-up" name="itag{{ p.postID.id }}"></i>&nbsp <p id="p_post{{p.postID.id}}" class="d-inline">{{p.postID.votes_total}}</p></button>
+                  </form>
+                  {% update_variable True as isfound %}
+                {% else %}
+                  {% if forloop.counter == postvotes.all.count and isfound == False %}
+                    <form class="" id="upvoting{{ p.postID.id }}" method="POST">
+                      {% csrf_token %}
+                      <button class="btn btn-md btn-outline-light border text-dark btn-block font-weight-bolder h5 p-auto" onclick="upvotepost({{p.postID.id}})">
+                      <i class="far fa-thumbs-up" name="itag{{ p.postID.id }}"></i>&nbsp <p id="p_post{{p.postID.id}}" class="d-inline">{{p.postID.votes_total}}</p></button>
+                    </form>
+                  {% endif %}
+                {% endif %}
+                {% endfor %}
+                {% endwith %}
+                <a class="btn btn-sm btn-outline-light border text-dark rounded btn-block font-weight-bolder h5 p-auto" data-toggle="modal" data-target="#posthuntModal{{p.postID.id}}" style="cursor: pointer;">
                 <i class="fa fa-comments-o" aria-hidden="true"></i>&nbsp</a>
               </div>
             </div>
@@ -189,7 +206,7 @@
       {% endfor %}
     </div>
   </div>
-
+  </div>
 </div>
 
 {% for post in posts.all %}

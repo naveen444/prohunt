@@ -1,0 +1,42 @@
+.b-button {
+  color: black;
+  background:transparent;
+  border: 2px solid #3F3E3E;
+  padding: 0.15rem 0.5rem 0.15rem 0.5rem;
+  position:relative;
+  display:inline-block;
+  transition:all 0.3s ease-in-out;
+}
+.b-button:before, .b-button:after {
+  content:'';
+  display:block;
+  position:absolute;
+  border-color: #3F3E3E;
+  box-sizing:border-box;
+  border-style:solid;
+  width:2em;
+  height:2.5em;
+  transition:all 0.3s ease-in-out
+}
+.b-button:before {
+  top:-6px;
+  left:-6px;
+  border-width:2px 0 0 2px;
+}
+.b-button:after {
+  bottom:-6px;
+  right:-6px;
+  border-width:0 2px 2px 0;
+}
+.b-button:hover:before, .b-button:hover:after {
+  width:calc(100% + 12px);
+  height:calc(100% - 100%);
+  border-color:#fff;
+}
+.b-button:hover {
+  color:#353535;
+  background-color: #fff;
+  text-decoration: none;
+  font-weight: bolder;
+  border-color: #fff;
+}

@@ -21,7 +21,7 @@ from . import views
 urlpatterns = [
     path('createp', views.createp, name='createp'),
     path('<int:product_id>/', views.detailp, name='detailp'),
-    path('<int:product_id>/upvote', views.upvote, name='upvote'),
+    path('upvote/<int:product_id>', views.upvote, name='upvote'),
     path('user_created_posts/<int:user_id>/', views.user_created_posts, name='user_created_posts'),
     path('deleteposts/<int:user_id>/<int:product_id>/', views.deleteposts, name='deleteposts'),
 ]

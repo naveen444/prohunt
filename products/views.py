@@ -4,10 +4,13 @@ from django.contrib.auth.models import User
 from .models import Product, Vote
 from django.contrib import messages
 from django.utils import timezone
+from django.http import HttpResponse
+import json
 
 def home(request):
     products = Product.objects
-    return render(request, 'products/home.html', {'products': products})
+    votes = Vote.objects
+    return render(request, 'products/home.html', {'products': products, 'votes': votes})
 
 @login_required(login_url="/accounts/signup")
 def createp(request):
@@ -43,24 +46,43 @@ def detailp(request, product_id):
 def upvote(request, product_id):
     if request.method == 'POST':
         product = get_object_or_404(Product, pk = product_id)
-        if product.hunter.username == request.user.username:
-            messages.error(request, "Creator can't upvote their own post !")
-            return render(request, 'products/detailp.html', {'product':product})
-        else:
-            try:
-                vote = Vote.objects.get(productID=product_id, userID=request.user)
-                messages.error(request, 'You have already voted for this post!')
-                return redirect('home')
-            except Vote.DoesNotExist:
-                vote = None
-                # find product by id and increment
-                product = Product.objects.get(id=product_id)
-                vote = Vote(productID=product, userID=request.user)
-                product.votes_total += 1
-                vote.save()
-                product.save()
-                messages.success(request, 'upvoted successfully!')
-                return redirect('home')
+        response_data = {}
+        try:
+            vote = Vote.objects.get(productID=product_id, userID=request.user)
+            product.votes_total -=1
+            vote.delete()
+            product.save()
+
+            response_data['result'] = 'deleted'
+            response_data['votes_total'] = product.votes_total
+
+            return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+            )
+
+        except Vote.DoesNotExist:
+            vote = None
+            # find product by id and increment
+            product = Product.objects.get(id=product_id)
+            vote = Vote(productID=product, userID=request.user)
+            product.votes_total += 1
+            vote.save()
+            product.save()
+
+            response_data['result'] = 'upvoted'
+            response_data['votes_total'] = product.votes_total
+
+            return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+            )
+    else:
+        return HttpResponse(
+        json.dumps({"nothing to see": "this isn't happening"}),
+        content_type="application/json"
+        )
+
 
 @login_required(login_url="/accounts/signup")
 def user_created_posts(request, user_id):

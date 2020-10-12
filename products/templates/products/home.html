@@ -3,9 +3,9 @@
 {% block content %}
 {% load custom_filters %}
 
-<div class="row justify-content-around">
+<div class="row no-gutters justify-content-around ">
 
-<div class="col-8 p-2 mx-auto">
+<div class="col-8 border bg-white p-3 no-gutters shadow-lg rounded">
 {% for product in products.all %}
 
   <div class="row m-auto">
@@ -14,30 +14,43 @@
       <img class="img-fluid w-100" src="{{ product.icon.url }}" alt="" />
     </div>
     <div class="col-8">
-      <a class="h3 text-info text-capitalize" data-toggle="modal" data-target="#producthuntModal{{forloop.counter}}">{{ product.title }}</a>
+      <a class="h3 text-custom text-capitalize" data-toggle="modal" data-target="#producthuntModal{{forloop.counter}}" style="cursor: pointer;">{{ product.title }}</a>
       <!-- href="{% url 'detailp' product.id %}" -->
-      <p class="font-weight-light m-0 h5 font-weight-normal">{{ product.product_description }}</p>
+      <p class="font-weight-light m-0 h5 font-weight-normal" style="user-select:none;">{{ product.product_description }}</p>
     </div>
-    <div class="col-3">
-      <a class="btn btn-md btn-outline-danger btn-block font-weight-bolder h5" href="javascript:{document.getElementById('upvoting{{ product.id }}').submit()}">
-      <i class="fa fa-caret-up fa-lg" aria-hidden="true"></i>&nbsp upvote &nbsp {{product.votes_total}}</a>
+    <div class="col-3 my-auto">
+      {% with isfound=False %}
+      {% for vote in votes.all %}
+      {% if user.id == vote.userID.id and product.id == vote.productID.id %}
+        <form class="" id="upvotingproduct{{ product.id }}" method="POST">
+          {% csrf_token %}
+          <button class="btn btn-sm btn-outline-dark btn-block font-weight-bolder h5" id="upbutton{{product.id}}" onclick="upvoteproduct({{ product.id }})" type="submit">
+          <p class="d-inline" id="product{{ product.id }}">upvoted &nbsp {{product.votes_total}}</p></button>
+        </form>
+        {% update_variable True as isfound %}
+      {% else %}
+        {% if forloop.counter == votes.all.count and isfound == False %}
+          <form class="" id="upvotingproduct{{ product.id }}" method="POST">
+            {% csrf_token %}
+            <button class="btn btn-sm btn-outline-custom btn-block font-weight-bolder h5" id="upbutton{{product.id}}" onclick="upvoteproduct({{ product.id }})" type="submit">
+            <p class="d-inline" id="product{{ product.id }}">upvote &nbsp &nbsp {{product.votes_total}}</p></button>
+          </form>
+        {% endif %}
+      {% endif %}
+      {% endfor %}
+      {% endwith %}
     </div>
   </div>
   <br>
 
-  <form class="" id="upvoting{{ product.id }}" action="{% url 'upvote' product.id %}" method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="" value="">
-  </form>
-
 {% endfor %}
 </div>
 {% if user.is_authenticated %}
-<hr style="border: none; border-left: 2px solid black; height: {{ products.count|multiply:'10' }}vh; width: 1px;">
-<div class="col-3 p-0">
+<!-- <hr class="mx-0" style="border: none; border-left: 2.2px solid black; height: {{ products.count|multiply:'12' }}vh; width: 1px;"> -->
+<div class="col-3 border bg-white p-2 shadow-lg rounded">
   <div class="m-2">
     <div class="mb-3">
-      <a class="h4" href="{% url 'user_created_posts' user.id %}">Posts that you have created</a>
+      <a class="h4" style="color:#223127;" href="{% url 'user_created_posts' user.id %}">Posts that you have created</a>
     </div>
     {% for product in products.all %}
       {% if product.hunter.username == user.username %}
@@ -46,8 +59,8 @@
             <!--  onclick="window.location='{% url 'detailp' product.id %}';" -->
             <img class="img-fluid w-100" src="{{ product.icon.url }}" alt="" />
           </div>
-          <div class="col-4 px-auto">
-            <a class="h4 text-info text-capitalize" data-toggle="modal" data-target="#producthuntModal{{forloop.counter}}">{{ product.title }}</a>
+          <div class="col-4 px-auto" style="cursor: pointer;">
+            <a class="h4 text-custom text-capitalize " data-toggle="modal" data-target="#producthuntModal{{forloop.counter}}">{{ product.title }}</a>
             <!-- href="{% url 'detailp' product.id %}" -->
           </div>
         </div>
