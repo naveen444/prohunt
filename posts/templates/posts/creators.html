@@ -8,13 +8,13 @@
   <div class="border rounded px-2 py-3 mt-3 bg-white shadow-lg" id="myTab">
     <ul class="nav nav-tabs"  role="tablist">
       <li class="nav-item ">
-        <a class="nav-link  active font-weight-bolder h6" id="home-tab" data-toggle="tab" href="#dashboard" role="tab" aria-controls="home" aria-selected="true">Dashboard</a>
+        <a class="nav-link  active font-weight-bolder h6" data-toggle="tab" href="#dashboard" role="tab" aria-controls="home" aria-selected="true">Dashboard</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link font-weight-bolder h6" id="contact-tab" data-toggle="tab" href="#liked" role="tab" aria-controls="contact" aria-selected="false">Liked by you</a>
+        <a class="nav-link font-weight-bolder h6" data-toggle="tab" href="#liked" role="tab" aria-controls="contact" aria-selected="false">Liked by you</a>
       </li>
       <li class="nav-item ml-auto">
-        <a class="nav-link font-weight-bolder h6" id="profile-tab" data-toggle="tab" href="#yourposts" role="tab" aria-controls="profile" aria-selected="false">your posts</a>
+        <a class="nav-link font-weight-bolder h6" data-toggle="tab" href="#yourposts" role="tab" aria-controls="profile" aria-selected="false">your posts</a>
       </li>
     </ul>
 
@@ -136,10 +136,15 @@
         </div>
       </div>
       <hr>
+      {% elif forloop.counter == posts.all|length %}
+      <div class="row mx-auto justify-content-center no-posts">
+        <h1>you have not posted anything yet!</h1>
+      </div>
       {% endif %}
       {% endfor %}
     </div>
 
+    <!-- liked by you -->
     <div class="tab-pane fade p-3 pt-4" id="liked" role="tabpanel" aria-labelledby="contact-tab">
       {% for p in postvotes.all %}
         {% if p.userID.id == user.id %}
@@ -200,8 +205,11 @@
 
           </div>
         </div>
-
-            <hr>
+        <hr>
+        {% elif forloop.counter == postvotes.all|length %}
+          <div class="row mx-auto justify-content-center no-posts">
+            <h1>you have not liked any posts yet!</h1>
+          </div>
         {% endif %}
       {% endfor %}
     </div>
@@ -210,8 +218,8 @@
 </div>
 
 {% for post in posts.all %}
-<!-- Portfolio Modals -->
-<div class="portfolio-modal modal fade bg-transparent" id="posthuntModal{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="posthuntModal{{forloop.counter}}Label" aria-hidden="true">
+<!-- producthunt Modals -->
+<div class="producthunt-modal modal fade bg-transparent" id="posthuntModal{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="posthuntModal{{forloop.counter}}Label" aria-hidden="true">
 <button type="button" class="close bg-light px-2 rounded-circle" data-dismiss="modal" aria-label="Close">
   <span aria-hidden="true">
     <i class="fas fa-times"></i>

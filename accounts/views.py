@@ -5,32 +5,30 @@ from .models import Profile
 
 def signup(request):
     if request.method == 'POST':
-        if request.POST['password'] == request.POST['cpassword']:
+        if request.POST['passwordSup'] == request.POST['cpassword']:
             try:
-                user = User.objects.get(username = request.POST['username'])
+                user = User.objects.get(username = request.POST['usernameSup'])
                 messages.error(request, 'Username already exist!')
-                return render(request,'accounts/signup.html')
+                return render(request,'accounts/login.html')
             except User.DoesNotExist:
-                user = User.objects.create_user(request.POST['username'], email = request.POST.get('email'), password = request.POST['password'])
+                user = User.objects.create_user(request.POST['usernameSup'], email = request.POST.get('email'), password = request.POST['passwordSup'])
                 user.first_name = request.POST.get('fname')
                 user.last_name = request.POST.get('lname')
-                user.profile.bio = request.POST.get('about')
-                user.profile.image = request.FILES['pphoto']
                 user.profile.birth_date = request.POST.get('dob')
                 user.save()
                 auth.login(request,user)
                 return redirect('home')
         else:
             messages.error(request, 'Passwords did not matched!')
-            return render(request,'accounts/signup.html')
+            return render(request,'accounts/login.html')
         #user has info and wanna make account!
     else:
         #user wants to enter info
-        return render(request,'accounts/signup.html')
+        return render(request,'accounts/login.html')
 
 def login(request):
     if request.method == 'POST':
-        user = auth.authenticate(username=request.POST['username'],password=request.POST['password'])
+        user = auth.authenticate(username=request.POST['usernameLin'],password=request.POST['passwordLin'])
         if user is not None:
             auth.login(request, user)
             return redirect('home')

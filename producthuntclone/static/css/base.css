@@ -5,3 +5,251 @@ body{
   background-size: cover;
   min-height:100%;
 }
+#userModal .modal-content{
+  position: relative;
+  overflow: visible;
+  background-color: transparent;
+  justify-content: center;
+  align-items: center;
+}
+#userModal .modal-content .card{
+  width: 35rem;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: none;
+}
+#userModal .modal-content .card *{
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+#userModal .modal-content .card .card-body{
+  padding-top: 50px;
+  background-color: white;
+  border-radius: 30px;
+}
+
+#userModal .modal-content .card img{
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transform: translateY(30px);
+  border: 6px solid #16A286;
+  box-shadow: 0px 0px 22px rgba(0, 0, 0, 0.5);
+}
+
+
+.landing{
+  height: 80vh;
+  max-width: 100vw;
+  width: 100%;
+  color: white;
+  overflow: hidden;
+  position: relative;
+}
+
+.landing .slide{
+  position: relative;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  display: none;
+  padding: 0 15px;
+  animation: slide .8s ease;
+}
+
+.landing .slide.active{
+  display: flex;
+}
+
+@keyframes slide {
+  0%{
+    transform: translate(1000px);
+  }
+  100%{
+    transform: translate(0px);
+  }
+}
+
+.landing .slide.run{
+  animation: run .8s ease;
+}
+
+@keyframes run {
+  0%{
+    transform: translate(0px);
+  }
+  100%{
+    transform: translate(-2000px);
+  }
+}
+
+.landing .container{
+  max-width: 80vw;
+  height: 80vh;
+  margin: auto;
+  flex-grow: 1;
+  background-color: transparent;
+  padding: 30px;
+}
+
+
+.landing .caption h1{
+  font-size: 42px;
+  margin: 0;
+}
+
+.landing .caption p{
+  font-size: 20px;
+  font-weight: 500;
+  text-align: justify;
+}
+
+
+.landing .controls .prev,
+.landing .controls .next{
+  position: absolute;
+  z-index: 2;
+  top: 40%;
+  height: 60px;
+  width: 60px;
+  margin-top: -20px;
+  color: #ffffff;
+  text-align: center;
+  justify-content: center;
+  line-height: 50px;
+  font-size: 60px;
+  color: blue;
+  font-weight: 900;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.landing .controls .prev:hover,
+.landing .controls .next:hover{
+  color: white;
+}
+
+.landing .controls .prev{
+  left: 0;
+}
+
+.landing .controls .next{
+  right: 0;
+}
+
+.landing .indicator{
+	position: absolute;
+	left:50%;
+	bottom:20px;
+	z-index: 2;
+	transform: translateX(-50%);
+}
+
+.landing .indicator div{
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	color:#ffffff;
+	background-color: #670eb6;
+	border-radius:50%;
+	text-align: center;
+  align-items: center;
+  justify-content: center;
+	line-height: 25px;
+	margin:0 8px;
+  cursor: pointer;
+}
+
+.landing .indicator div.active{
+  background-color: #000;
+  box-shadow: 0 0 3px 1px #000;
+}
+
+.landing .indicator div:hover{
+  background-color: #8e44ad;
+  box-shadow: 0 0 5px 3px #9b59b6;
+}
+
+.productsrow{
+  scroll-behavior: smooth;
+  animation: all 1s ease;
+}
+
+
+.arrow-down{
+  width:60px;
+  height:40px;
+  position: relative;
+  left: 49.66%;
+  bottom:0px;
+  cursor: pointer;
+  -webkit-animation: arrow 0.5s 1s infinite ease-out alternate;
+}
+
+.arrow-down:hover{
+   -webkit-animation-play-state: paused;
+}
+
+.left{
+  position:absolute;
+  height:8px;
+  width:28px;
+  background:black;
+  -webkit-transform:rotate(240deg);
+  bottom: 0px;
+  /* left:8px; */
+  -webkit-border-radius:4px;
+  -webkit-transform-origin:5px 50%;
+  -webkit-animation: leftArrow 0.5s 1s infinite ease-out alternate;
+}
+
+.right{
+  position:absolute;
+  height:8px;
+  width:28px;
+  background:black;
+  -webkit-transform:rotate(-60deg);
+  bottom: 0px;
+  left:2px;
+  -webkit-border-radius:4px;
+  -webkit-transform-origin:5px 50%;
+  -webkit-animation: rightArrow 0.5s 1s infinite ease-out alternate;
+}
+
+@-webkit-keyframes arrow{
+  0% {
+    bottom:0px;
+  }
+  100%{
+    bottom:40px;
+  }
+}
+
+
+@-webkit-keyframes leftArrow{
+  0% {
+  }
+  100%{
+    -webkit-transform:rotate(225deg);
+  }
+}
+
+@-webkit-keyframes rightArrow{
+  0% {
+  }
+  100%{
+    -webkit-transform:rotate(-45deg);
+  }
+}
+
+
+/*responsive*/
+@media(max-width: 767px){
+	.controls{
+		display: none;
+	}
+}

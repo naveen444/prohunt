@@ -286,6 +286,7 @@ input[type=radio],
 input[type=checkbox] {
   box-sizing: border-box;
   padding: 0;
+  display: inline;
 }
 
 input[type=date],
@@ -583,8 +584,8 @@ pre code {
 
 .container-fluid, .container-xl, .container-lg, .container-md, .container-sm {
   width: 100%;
-  padding-right: 1.5rem;
-  padding-left: 1.5rem;
+  padding-right: 3rem;
+  padding-left: 3rem;
   margin-right: auto;
   margin-left: auto;
 }
@@ -7422,6 +7423,10 @@ button.bg-dark:focus {
   box-shadow: none !important;
 }
 
+.w-10 {
+  width: 16% !important;
+}
+
 .w-25 {
   width: 25% !important;
 }
@@ -10148,7 +10153,7 @@ h3 {
     transition: padding-top 0.3s, padding-bottom 0.3s;
   }
   #mainNav .navbar-brand {
-    font-size: 1.75em;
+    font-size: 1.6em;
     transition: font-size 0.3s;
   }
   #mainNav .navbar-nav {
@@ -10200,7 +10205,7 @@ h3 {
     font-size: 1.5rem;
   }
 }
-.portfolio .portfolio-item {
+.producthunt .producthunt-item {
   cursor: pointer;
   position: relative;
   display: block;
@@ -10208,7 +10213,7 @@ h3 {
   border-radius: 0.5rem;
   overflow: hidden;
 }
-.portfolio .portfolio-item .portfolio-item-caption {
+.producthunt .producthunt-item .producthunt-item-caption {
   position: absolute;
   top: 0;
   left: 0;
@@ -10216,24 +10221,24 @@ h3 {
   opacity: 0;
   background-color: rgba(26, 188, 156, 0.9);
 }
-.portfolio .portfolio-item .portfolio-item-caption:hover {
+.producthunt .producthunt-item .producthunt-item-caption:hover {
   opacity: 1;
 }
-.portfolio .portfolio-item .portfolio-item-caption .portfolio-item-caption-content {
+.producthunt .producthunt-item .producthunt-item-caption .producthunt-item-caption-content {
   font-size: 1.5rem;
 }
 
-.portfolio-modal .portfolio-modal-title {
+.producthunt-modal .producthunt-modal-title {
   font-size: 2.25rem;
   line-height: 2rem;
 }
 @media (min-width: 992px) {
-  .portfolio-modal .portfolio-modal-title {
+  .producthunt-modal .producthunt-modal-title {
     font-size: 3rem;
     line-height: 2.5rem;
   }
 }
-.portfolio-modal .close {
+.producthunt-modal .close {
   position: absolute;
   z-index: 1;
   right: 1.5rem;

@@ -1,0 +1,284 @@
+/* container-cp */
+.container-cp {
+  position: relative;
+  width: 100%;
+  margin: 5px auto;
+}
+.container-cp .card-cp:first-child {
+  background: #f2f2f2;
+  margin: 0 15px;
+}
+.container-cp .card-cp:nth-child(2) {
+  background: #fff;
+  margin: 0 5px;
+}
+/* card-cp */
+.card-cp {
+  position: relative;
+  background: #ffffff;
+  border-radius: 5px;
+  padding: 50px 0 40px 0;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: 0.3s ease;
+}
+.card-cp:first-child {
+  background: #fafafa;
+  height: 10px;
+  border-radius: 5px 5px 0 0;
+  margin: 0 10px;
+  padding: 0;
+}
+.card-cp .title {
+  position: relative;
+  z-index: 1;
+  border-left: 5px solid #006a71;
+  margin: 0 0 12px;
+  padding: 10px 0 10px 50px;
+  color: #006a71;
+  font-size: 32px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.card-cp .input-container-cp {
+  position: relative;
+  margin: 0 50px 40px;
+}
+
+.card-cp .input-container-cp .row{
+  margin: auto;
+  column-gap: 30px;
+}
+.card-1 .input-container-1cp .col{
+  padding-left: 8px;
+  height: 42px;
+}
+
+.card-cp .input-container-cp input {
+  outline: none;
+  z-index: 1;
+  position: relative;
+  background: none;
+  width: 100%;
+  height: 50px;
+  border: 0;
+  color: #212121;
+  font-size: 24px;
+  font-weight: 400;
+}
+.card-cp .input-container-cp input:focus ~ label {
+  color: #9d9d9d;
+  transform: translate(-12%, -56%) scale(0.75);
+}
+.card-cp .input-container-cp input:focus ~ .bar:before, .card-cp .input-container-cp input:focus ~ .bar:after {
+  width: 50%;
+}
+.card-cp .input-container-cp input:valid ~ label {
+  color: #9d9d9d;
+  transform: translate(-12%, -50%) scale(0.75);
+}
+
+.card-cp .input-container-cp textarea {
+  outline: none;
+  z-index: 1;
+  position: relative;
+  background: none;
+  width: 100%;
+  height: 60px;
+  padding: 0;
+  border: 0;
+  color: #212121;
+  font-size: 24px;
+  font-weight: 400;
+}
+.card-cp .input-container-cp textarea:focus ~ label {
+  padding-bottom: 20px;
+  color: #9d9d9d;
+  transform: translate(-12%, -56%) scale(0.75);
+}
+.card-cp .input-container-cp textarea:focus ~ .bar:before, .card-cp .input-container-cp textarea:focus ~ .bar:after {
+  width: 50%;
+}
+.card-cp .input-container-cp textarea:valid ~ label {
+  padding-bottom: 20px;
+  color: #9d9d9d;
+  transform: translate(-12%, -50%) scale(0.75);
+}
+
+
+.card-cp .input-container-cp label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #757575;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 50px;
+  -webkit-transition: 0.2s ease;
+  -moz-transition: 0.2s ease;
+  transition: 0.2s ease;
+}
+.card-cp .input-container-cp .bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background: #757575;
+  width: 100%;
+  height: 1px;
+}
+.card-cp .input-container-cp .bar:before, .card-cp .input-container-cp .bar:after {
+  content: "";
+  position: absolute;
+  background: #ff7e67;
+  width: 0;
+  height: 2px;
+  transition: 0.2s ease;
+}
+.card-cp .input-container-cp .bar:before {
+  left: 50%;
+}
+.card-cp .input-container-cp .bar:after {
+  right: 50%;
+}
+.card-cp .button-container-cp {
+  margin: 0 60px;
+  text-align: center;
+}
+.card-cp .button-container-cp button {
+  box-sizing: border-box;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  background-color: transparent;
+  color: #fff;
+  border: 2.5px solid #006a71;
+  border-radius: 14px;
+  padding: 6px 10px;
+  font-size: 24px;
+  font-weight: 700;
+  overflow: hidden;
+  box-shadow: 0 0 40px 40px #006a71 inset, 0 0 0 0 #006a71;
+  -webkit-transition: all 150ms ease-in-out;
+  transition: all 150ms ease-in-out;
+}
+
+.card-cp .button-container-cp button:hover, .card-cp .button-container-cp button:active, .card-cp .button-container-cp button:focus {
+  color: #006a71;
+  box-shadow: 0 0 2px 0 #006a71 inset, 0 0 10px 4px #006a71;
+}
+
+
+.card-img {
+  position: absolute;
+  top: 65px;
+  right: -80px;
+  z-index: 10;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  overflow: hidden;
+  padding: 0.6rem;
+}
+.card-img::before {
+  content: '';
+  position: absolute;
+  z-index: -2;
+  left: -50%;
+  top: -50%;
+  width: 200%;
+  height: 200%;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-size: 50% 50%, 50% 50%;
+  background-position: 0 0, 100% 0, 100% 100%, 0 100%;
+  background-image: linear-gradient(#006a71, #006a71), linear-gradient(#fff, #fff), linear-gradient(#006a71, #006a71), linear-gradient(#fff, #fff);
+}
+.card-img:hover::before{
+  -webkit-animation: rotate 4s linear infinite;
+          animation: rotate 4s linear infinite;
+}
+
+.container-cp .card-img .parent{
+  position: relative;
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  transition: all .5s ease;
+}
+
+.container-cp .card-img img{
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+}
+
+.parent:hover .child:before, .parent:focus .child:before {
+  display: block;
+}
+
+.container-cp .card-img:hover .parent{
+  transform: scale(1.2);
+}
+
+.card-cp .user-info{
+  padding-left: 50px;
+  padding-right: 60px;
+  margin-bottom: 10px;
+  color: #006a71;
+}
+.card-cp .title-username {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: 5px 0 10px 0px;
+  color: #006a71;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.card-cp .title-username::first-letter{
+  font-size: 60px;
+}
+.card-cp .title-username span{
+  font-size: 60px;
+  font-weight: normal;
+}
+.card-cp .user-info .user-bio{
+  text-align: justify;
+  overflow: auto;
+}
+
+@-webkit-keyframes rotate {
+  100% {
+    -webkit-transform: rotate(1turn);
+            transform: rotate(1turn);
+  }
+}
+@keyframes rotate {
+  100% {
+    -webkit-transform: rotate(1turn);
+            transform: rotate(1turn);
+  }
+}
+
+.card-cp .input-container-cp input[type=file]{
+  display: none;
+}
+.card-cp .input-container-cp.image{
+  display: flex;
+  height: 30px;
+  margin: 0px 20px 0px;
+  align-content: flex-end;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+.card-cp .input-container-cp.image label{
+  position: relative;
+  margin-left: auto;
+  color: #006a71;
+  cursor: pointer;
+}

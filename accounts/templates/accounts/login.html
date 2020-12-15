@@ -1,15 +1,107 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="text-center">
+
+<div class="container-1">
+  <div class="card-1"></div>
+  <div class="card-1">
+    <h1 class="title">Login</h1>
+    <form class="" action="{% url 'login' %}" method="POST">
+    {% csrf_token %}
+      <div class="input-container-1">
+        <input type="text" name="usernameLin" id="usernameLin" required="required" />
+        <label for="usernameLin">Username</label>
+        <div class="bar"></div>
+      </div>
+      <div class="input-container-1">
+        <input type="password" name="passwordLin" id="passwordLin" required="required" />
+        <label for="passwordLin">Password</label>
+        <div class="bar"></div>
+      </div>
+      <div class="button-container-1 pt-4">
+        <button>Sign In</button>
+        <!-- <button><span>Sign in</span></button> -->
+      </div>
+      <div class="d-flex justify-content-center pt-2">
+        <a class=" font-weight-bolder" href="{% url 'reset_password' %}">Forgot password</a>
+      </div>
+    </form>
+  </div>
+  <div class="card-1 alt">
+    <div class="toggle-1"></div>
+    <h1 class="title">Sign Up
+      <div class="close-1"></div>
+    </h1>
+    <form action="{% url 'signup' %}" enctype="multipart/form-data" method="POST">
+      {% csrf_token %}
+      <div class="input-container-1">
+        <div class="row justify-content-between">
+          <div class="col col-7">
+            <input type="text" name="usernameSup" id="usernameSup" required="required" />
+            <label for="usernameSup">Username</label>
+            <div class="bar"></div>
+          </div>
+          <div class="col col-4">
+            <input type="date" name="dob" id="dob" required="required" data-placeholder="date of birth"/>
+            <label for="dob">Date of Birth</label>
+            <div class="bar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="input-container-1">
+        <div class="row">
+          <div class="col">
+            <input type="text" name="fname" id="Fname" required="required" />
+            <label for="Fname">First name</label>
+            <div class="bar"></div>
+          </div>
+          <div class="col">
+            <input type="text" name="lname" id="Lname" required="required" />
+            <label for="Lname">Last name</label>
+            <div class="bar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="input-container-1">
+        <div class="row">
+          <div class="col">
+            <input type="email" name="email" id="Email" required="required"/>
+            <label for="Email">Email</label>
+            <div class="bar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="input-container-1">
+        <div class="row">
+          <div class="col">
+            <input type="password" name="passwordSup" id="passwordSup" required="required" />
+            <label for="password">Password</label>
+            <div class="bar"></div>
+          </div>
+          <div class="col">
+            <input type="password" name="cpassword" id="cpassword" required="required" />
+            <label for="cpassword">Repeat Password</label>
+            <div class="bar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="button-container-1">
+        <!-- <button><span>Signup</span></button> -->
+        <button type="submit">Signup</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+<!-- <div class="text-center">
   <h1 class="">Login</h1>
 
-  <form class="" action="{% url 'login' %}" method="POST">
-  {% csrf_token %}
+
   <div class="row">
 				<div class="col-lg-8 mx-auto">
-					<!-- <form name="sentMessage" id="contactForm" role="form" autocomplete="off" action="{% url 'home' %}" onsubmit="return validation()" method="post"> -->
-						<!-- {% csrf_token %} -->
 						<div class="control-group">
 							<div class="form-group floating-label-form-group controls mb-0 pb-2">
 								<label>Username</label>
@@ -25,7 +117,6 @@
 							</div>
 						</div>
 						<br>
-						<!-- <div id="success"></div> -->
 						<div class="form-group">
 							<input type="submit" class="btn btn-outline-success font-weight-bold btn-lg" value="Login"></input>
               <a class="btn btn-lg btn-outline-danger font-weight-bolder" href="{% url 'reset_password' %}">Forgot password</a>
@@ -33,12 +124,15 @@
           </div>
       </div>
 		</form>
-	</div>
+	</div> -->
 			<!-- </div> -->
   <!-- Username:
   <input type="text" name="username" value="username">
   </form>
 </div> -->
+
+<!-- <form name="sentMessage" id="contactForm" role="form" autocomplete="off" action="{% url 'home' %}" onsubmit="return validation()" method="post"> -->
+  <!-- {% csrf_token %} -->
 
 
 {% endblock %}

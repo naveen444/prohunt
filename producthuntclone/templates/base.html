@@ -20,6 +20,9 @@
   <link href="{% static 'css/products.css' %}" rel="stylesheet">
 	<link href="{% static 'css/toggle-p.css' %}" rel="stylesheet">
 	<link href="{% static 'css/base.css' %}" rel="stylesheet">
+	<link href="{% static 'css/accounts.css' %}" rel="stylesheet">
+	<link href="{% static 'css/profile.css' %}" rel="stylesheet">
+	<link href="{% static 'css/creators.css' %}" rel="stylesheet">
 
 </head>
 
@@ -28,9 +31,9 @@
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg fixed-top navbar-fixed-top" id="mainNav">
 		<!--  style="background-color: #223127;" -->
-		<div class="container">
+		<div class="container-fluid">
 			<a class="navbar-brand js-scroll-trigger " href="{% url 'home' %}">
-        <img src="{% static 'logo.png' %}" class="w-25 d-inline-block align-top" /><span>roChase</span></a>
+        <img src="{% static 'logo.png' %}" class="w-10 d-inline-block align-top" /><span>roducthunt</span></a>
 			<button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-white rounded p-2" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 				Menu
 				<i class="fas fa-bars"></i>
@@ -46,8 +49,8 @@
           </li>
 					<li class="nav-item dropdown mx-2">
 						<a class="nav-link dropdown-toggle rounded js-scroll-trigger navitems" href="" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user fa-lg" aria-hidden="true"></i></a>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-							<a class="dropdown-item disabled" data-toggle="modal" data-target="#userModal" style="cursor: pointer;" >logged in as <b>{{ user.username }}</b></a>
+						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+							<a class="dropdown-item disabled" data-toggle="modal" data-target="#userModal" style="cursor: pointer;" ><b>{{ user.username }}</b></a>
 					    <a class="dropdown-item" data-toggle="modal" data-target="#userModal" style="cursor: pointer;" >My profile</a>
 					    <a class="dropdown-item" href="javascript:{document.getElementById('logout').submit()}">Logout</a>
 					    <!-- <a class="dropdown-item" href="#">Something else here</a> -->
@@ -58,11 +61,11 @@
           <input type="hidden" name="" value="" />
         </form>
         {% else %}
-					<li class="nav-item mx-0 mx-lg-1">
+					<!-- <li class="nav-item mx-0 mx-lg-1">
 						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger navitems" href="{% url 'signup' %}">Sign Up</a>
-					</li>
+					</li> -->
 					<li class="nav-item mx-0 mx-lg-1">
-						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger navitems" href="{% url 'login' %}">Login</a>
+						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger navitems" href="{% url 'login' %}">Login / Sign up</a>
 					</li>
 
         {% endif %}
@@ -72,8 +75,8 @@
 	</nav>
 
 	<!-- Masthead -->
-	<header class="masthead" style="padding-top:120px;" >
-		<!-- {% if messages %}
+	<header class="masthead" style="padding-top: 5px;" >
+		{% if messages %}
         {% for message in messages %}
 				<div class="d-flex message justify-content-center mb-3" style="user-select:none;">
 							{% if message.tags == 'success'%}
@@ -95,26 +98,11 @@
 	            {% endif %}
 					</div>
         {% endfor %}
-    {% endif %} -->
-
-		<div class="container">
-			<div class="row" style="margin-bottom: 300px;">
-				<div class="col-lg-8">
-					<p class="h4 text-white font-weight-bolder"><br>
-						Website headers are a central part in designing a website.
-						They play a key role in grabbing the users’ attention and establishing a connection with the website’s visitors.
-						In the following lines, we’ll tackle some header design principles you should be aware of when designing a website header.
-					</p>
-				</div>
-				<div class="col-lg-4">
-
-				</div>
-			</div>
-		</div>
+    {% endif %}
 	</header>
 
 	<section class="" style="min-height:100vh; padding-bottom:20px;">
-		<div class="container rounded p-0">
+		<div class="container-fluid">
 			{% block content %}
 			{% endblock %}
 		</div>
@@ -143,54 +131,29 @@
 
 <!-- user modal -->
 {% if user.is_authenticated %}
-<div class="portfolio-modal modal fade bg-transparent" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
-	<button type="button" class="close bg-light px-2 rounded-circle" data-dismiss="modal" aria-label="Close">
+<div class="producthunt-modal modal fade bg-transparent" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		<span aria-hidden="true">
 			<i class="fas fa-times"></i>
 		</span>
 	</button>
-	<div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable" role="document">
-		<div class="modal-content  border border-info">
-			<div class="modal-body py-3">
-				<div class="container-fluid">
-					<p class=" display-4 font-weight-bolder text-center mb-3">My Profile</p>
-
-				  {% csrf_token %}
-					<div class="row border mx-3 py-4">
-						<div class="col-3">
-							<div class="">
-								<img class="img-fluid rounded-circle" style="height: 220px; width: 220px" src="{{ user.profile.image.url }}" alt="" />
-							</div>
-						</div>
-						<div class="col-9 pt-2">
-							<p class="h1 font-weight-bolder text-capitalize">{{ user.first_name }}  {{ user.last_name }}</p>
-							<p class="h6 text-muted">DOB: {{ user.profile.birth_date }}</p>
-							<p class="h5 text-muted">{{ user.email }}</p>
-							<hr>
-							<div class="row">
-								<div class="col-3">
-									<p class="h5 pt-2">Username:</p>
-								</div>
-								<div class="col-9">
-									<p class="h5 pt-2">{{ user.username }}</p>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-3">
-									<p class="h5 pt-2">About:</p>
-								</div>
-								<div class="col-9">
-									<p class="h5 pt-2 text-justify lead">{{ user.profile.bio }}</p>
-								</div>
-							</div>
-						</div>
-						<br>
-						<div class="ml-auto">
-								<a class="btn btn-sm btn-outline-primary mx-1 float-right font-weight-bolder" href="{% url 'chgpassword' user.id %}">change password</a>
-								<a class="btn btn-sm btn-outline-primary mx-1 float-right font-weight-bolder" href="{% url 'chgprofile' user.id %}">update profile</a>
+	<div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
+		<div class="modal-content">
+				<div class="card" >
+						<img class="card-img-top img-fluid" src="{{ user.profile.image.url }}" style="height: 175px; width: 175px">
+					<div class="card-body">
+						<h3 class="card-title">{{ user.username }}</h3>
+						<p class="h4 font-weight-bolder text-capitalize">{{ user.first_name }}  {{ user.last_name }}</p>
+						<p class="h6 text-muted">{{ user.profile.birth_date }}</p>
+						<p class="card-text">{{ user.profile.bio }}</p>
+						<!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+						<div class="">
+								<a class="btn btn-sm btn-outline-primary mx-1 font-weight-bolder" href="{% url 'chgpassword' user.id %}">change password</a>
+								<a class="btn btn-sm btn-outline-primary mx-1 font-weight-bolder" href="{% url 'chgprofile' user.id %}">update profile</a>
 						</div>
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -207,8 +170,10 @@
 	<!-- Custom scripts for this template -->
 	<script src="{% static 'js/scripts.js' %}"></script>
 	<script src="{% static 'js/togglescript.js' %}"></script>
+	<script src="{% static 'js/home.js' %}"></script>
 	<script src="{% static 'js/commentjs.js' %}"></script>
 	<script src="{% static 'js/products.js' %}"></script>
+	<script src="{% static 'js/accounts.js' %}"></script>
 	<!-- Contact Form JavaScript -->
 	<!-- <script src="{% static 'js/contact_me.js' %}"></script> -->
 	<!-- <script src="{% static 'js/home.js' %}"></script> -->

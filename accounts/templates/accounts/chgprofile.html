@@ -1,96 +1,54 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="">
-  <p class=" display-4 font-weight-bolder text-center mb-3">My Profile</p>
-  <div class="row border mx-3 pt-4">
-      <!-- <form name="sentMessage" id="contactForm" role="form" autocomplete="off" action="{% url 'home' %}" onsubmit="return validation()" method="post"> -->
-        <div class="col-9 pt-2">
-          <p class="h1 font-weight-bolder text-capitalize">{{ user.first_name }}  {{ user.last_name }}</p>
-          <p class="h6 text-muted">DOB: {{ user.profile.birth_date }}</p>
-          <p class="h5 text-muted">{{ user.email }}</p>
-          <hr>
-          <!-- autocomplete="off" -->
-          <div class="border p-2 rounded">
-          <form class="" action="{% url 'chgprofile' user.id %}" enctype="multipart/form-data" method="POST" id="chgprfl" autocomplete="off">
-            {% csrf_token %}
-            <div class="row">
-              <div class="col-3">
-                <p class="h4 pt-3">Username:</p>
-              </div>
-              <div class="col-9">
-                <div class="control-group">
-                  <div class="form-group floating-label-form-group controls">
-                    <!-- <label>Username</label> -->
-                    <input class="form-control" type="text" name="username" id="username" value="{{ user.username }}" />
-                    <!-- <p class="help-block text-danger" id = "reqUsername"></p> -->
-                  </div>
-                </div>
-              </div>
-            </div>
-            <br>
-            <div class="row">
-              <div class="col-3">
-                <p class="h4 pt-3">Email:</p>
-              </div>
-              <div class="col-9">
-                <div class="control-group">
-                  <div class="form-group floating-label-form-group controls">
-                    <!-- <label>Username</label> -->
-                    <input class="form-control" type="text" name="email" id="email" value="{{ user.email }}" />
-                    <!-- <p class="help-block text-danger" id = "reqUsername"></p> -->
-                  </div>
-                </div>
-              </div>
-            </div>
-            <br>
-            <div class="row">
-              <div class="col-3">
-                <p class="h4 pt-3">About:</p>
-              </div>
-              <div class="col-9">
-                <div class="control-group">
-                  <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                    <!-- <label>About</label> -->
-                    <textarea class="form-control h-auto" type="text" name="about" id="about" >{{ user.profile.bio }}</textarea>
-                    <!-- <p class="help-block text-danger" id = "Abt"></p> -->
-                  </div>
-                </div>
-              </div>
-            </div>
-            <br>
-            <div class="row">
-              <div class="col-3">
-                <p class="h4 pt-3">Password:</p>
-              </div>
-              <div class="col-9">
-                <div class="control-group">
-                  <div class="form-group floating-label-form-group controls">
-                    <!-- <label>Username</label> -->
-                    <input class="form-control" type="text" name="password" id="password" placeholder="enter password" />
-                    <!-- <p class="help-block text-danger" id = "reqUsername"></p> -->
-                  </div>
-                </div>
-              </div>
-            </div>
-            <br>
-            <div class="file btn btn-sm btn-primary text-center rounded-circle " style="position: relative; overflow: hidden;">
-              <i class="fa fa-upload" aria-hidden="true"></i>
-              <input type="file" name="photo" id="photo" style="position: absolute; font-size: 50px; opacity: 0; right: 0; top: 0" />
-            </div>
-            <div class="form-group text-right">
-              <input type="submit" class="btn md-btn btn-outline-dark font-weight-bold btn-md" value="Save"></input>
-            </div>
-          </form>
-          </div>
-          <br>
-        </div>
-        <br>
-        <div class="col-3">
-          <div class="">
-            <img class="img-fluid rounded-circle" style="height: 220px; width: 220px" src="{{ user.profile.image.url }}" alt="" />
-          </div>
-          <br>
-        </div>
+<div class="container container-cp">
+  <div class="card-cp"></div>
+  <div class="card-cp">
+    <h1 class="title text-center">Update &nbsp Profile</h1>
+    <div class="user-info">
+      <h2 class="title-username">{{ user.first_name }}  {{ user.last_name }}</h2>
+      <p class="h5 text-muted mb-3">{{ user.profile.birth_date }}</p>
+      <p class="h4 mb-4">{{ user.email }}</p>
+    </div>
+
+    <form class="" action="{% url 'chgprofile' user.id %}" enctype="multipart/form-data" method="POST" id="chgprfl" autocomplete="off">
+      {% csrf_token %}
+      <div class="input-container-cp image">
+        <label for="photo">
+          <i class="fas fa-plus"></i>
+        </label>
+        <input class="form-control font-weight-bold bg-transparent" type="file" name="photo" id="photo" />
+      </div>
+      <div class="input-container-cp">
+        <input type="text" name="username" id="username" required="required" value="{{ user.username }}"/>
+        <label for="username">Username</label>
+        <div class="bar"></div>
+      </div>
+      <div class="input-container-cp">
+        <input type="email" name="email" id="email" required="required" value="{{ user.email }}"/>
+        <label for="Email">Email</label>
+        <div class="bar"></div>
+      </div>
+      <div class="input-container-cp">
+        <textarea type="text" name="about" id="about" required="required">{{ user.profile.bio }}</textarea>
+        <label for="about">bio</label>
+        <div class="bar"></div>
+      </div>
+      <div class="input-container-cp">
+        <input type="password" name="password" id="password" required="required" />
+        <label for="password">Password</label>
+        <div class="bar"></div>
+      </div>
+      <div class="button-container-cp pt-4">
+        <button>Save</button>
+      </div>
+    </form>
   </div>
-  {% endblock %}
+  <div class="card-img">
+    <div class="parent">
+      <img class="" src="{{ user.profile.image.url }}" id="userimg" alt="" />
+    </div>
+  </div>
+</div>
+
+{% endblock %}

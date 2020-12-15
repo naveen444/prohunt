@@ -34,9 +34,9 @@
     </div>
 
 {% for product in products.all %}
-<!-- Portfolio Modals -->
+<!-- producthunt Modals -->
   {% if product.hunter.username == user.username %}
-    <div class="portfolio-modal modal fade bg-transparent" id="productModal{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="productModal{{forloop.counter}}Label" aria-hidden="true">
+    <div class="producthunt-modal modal fade bg-transparent" id="productModal{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="productModal{{forloop.counter}}Label" aria-hidden="true">
       <button type="button" class="close bg-light px-2 rounded-circle" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">
           <i class="fas fa-times"></i>

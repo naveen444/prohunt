@@ -1,9 +1,10 @@
-var upvotingproduct,product,upbutton;
+var upvotingproduct,product,producthuntModal,upbutton;
 
 function upvoteproduct(productid){
   console.log(productid)
   upvotingproduct = '#upvotingproduct'+productid
   upbutton = '#upbutton'+productid
+  producthuntModal = '#producthuntModal'+productid
 
   $(upvotingproduct).one('submit', function(event){
       event.preventDefault();
@@ -29,14 +30,18 @@ function upvotingp(productid) {
           if (json.result == 'upvoted') {
             console.log('upvoted');
             $(upbutton).toggleClass("btn-outline-custom btn-outline-dark")
+            $(producthuntModal+' '+upbutton).toggleClass("btn-outline-custom btn-outline-dark")
             console.log(json.votes_total); // log the returned json to the console
             $(product).text("upvoted \xa0\xa0\xa0"+json.votes_total);
+            $(producthuntModal+' '+product).text("upvoted \xa0\xa0\xa0"+json.votes_total);
           }
           else if (json.result == 'deleted') {
             console.log("deleted");
             $(upbutton).toggleClass("btn-outline-dark btn-outline-custom")
+            $(producthuntModal+' '+upbutton).toggleClass("btn-outline-dark btn-outline-custom")
             console.log(json.votes_total); // log the returned json to the console
             $(product).text("upvote \xa0\xa0\xa0"+json.votes_total);
+            $(producthuntModal+' '+product).text("upvote \xa0\xa0\xa0"+json.votes_total);
           }
           else {
             console.log('error');

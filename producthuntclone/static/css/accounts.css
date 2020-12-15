@@ -1,0 +1,350 @@
+/* container-1 */
+.container-1 {
+  position: relative;
+  max-width: 840px;
+  width: 100%;
+  margin: 5px auto;
+}
+.container-1.active .card-1:first-child {
+  background: #f2f2f2;
+  margin: 0 15px;
+}
+.container-1.active .card-1:nth-child(2) {
+  background: #fafafa;
+  margin: 0 10px;
+}
+.container-1.active .card-1.alt {
+  top: 20px;
+  right: 0;
+  width: 100%;
+  min-width: 100%;
+  height: auto;
+  border-radius: 5px;
+  padding: 60px 0 40px;
+  overflow: hidden;
+}
+.container-1.active .card-1.alt .toggle-1 {
+  position: absolute;
+  top: 40px;
+  right: 0px;
+  box-shadow: none;
+  -webkit-transform: scale(16);
+  -moz-transform: scale(16);
+  -ms-transform: scale(16);
+  -o-transform: scale(16);
+  transform: scale(16);
+  transition: transform 0.3s ease;
+}
+.container-1.active .card-1.alt .toggle-1:before {
+  content: "";
+}
+.container-1.active .card-1.alt .title,
+.container-1.active .card-1.alt .input-container-1,
+.container-1.active .card-1.alt .button-container-1 {
+  left: 0;
+  opacity: 1;
+  visibility: visible;
+  transition: 0.3s ease;
+}
+.container-1.active .card-1.alt .title {
+  transition-delay: 0.3s;
+}
+.container-1.active .card-1.alt .input-container-1 {
+  transition-delay: 0.4s;
+}
+.container-1.active .card-1.alt .input-container-1:nth-child(2) {
+  transition-delay: 0.5s;
+}
+.container-1.active .card-1.alt .input-container-1:nth-child(3) {
+  transition-delay: 0.6s;
+}
+.container-1.active .card-1.alt .button-container-1 {
+  transition-delay: 0.7s;
+}
+
+/* card-1 */
+.card-1 {
+  position: relative;
+  background: #ffffff;
+  border-radius: 5px;
+  padding: 60px 0 40px 0;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: 0.3s ease;
+}
+.card-1:first-child {
+  background: #fafafa;
+  height: 10px;
+  border-radius: 5px 5px 0 0;
+  margin: 0 10px;
+  padding: 0;
+}
+.card-1 .title {
+  position: relative;
+  z-index: 1;
+  border-left: 5px solid #006a71;
+  margin: 0 0 35px;
+  padding: 10px 0 10px 50px;
+  color: #006a71;
+  font-size: 32px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.card-1 .input-container-1 {
+  position: relative;
+  margin: 0 60px 60px;
+}
+.card-1 .input-container-1 input {
+  outline: none;
+  z-index: 1;
+  position: relative;
+  background: none;
+  width: 100%;
+  height: 60px;
+  border: 0;
+  color: #212121;
+  font-size: 24px;
+  font-weight: 400;
+}
+.card-1 .input-container-1 input:focus ~ label {
+  color: #9d9d9d;
+  transform: translate(-12%, -56%) scale(0.75);
+}
+.card-1 .input-container-1 input:focus ~ .bar:before, .card-1 .input-container-1 input:focus ~ .bar:after {
+  width: 50%;
+}
+.card-1 .input-container-1 input:valid ~ label {
+  color: #9d9d9d;
+  transform: translate(-12%, -50%) scale(0.75);
+}
+.card-1 .input-container-1 label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #757575;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 60px;
+  -webkit-transition: 0.2s ease;
+  -moz-transition: 0.2s ease;
+  transition: 0.2s ease;
+}
+.card-1 .input-container-1 .bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background: #757575;
+  width: 100%;
+  height: 1px;
+}
+.card-1 .input-container-1 .bar:before, .card-1 .input-container-1 .bar:after {
+  content: "";
+  position: absolute;
+  background: #ff7e67;
+  width: 0;
+  height: 2px;
+  transition: 0.2s ease;
+}
+.card-1 .input-container-1 .bar:before {
+  left: 50%;
+}
+.card-1 .input-container-1 .bar:after {
+  right: 50%;
+}
+.card-1 .button-container-1 {
+  margin: 0 60px;
+  text-align: center;
+}
+.card-1 .button-container-1 button {
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  width: 160px;
+  background-color: #fff;
+  color: #006a71;
+  border: 2.5px solid #006a71;
+  border-radius: 14px;
+  padding: 6px 0;
+  font-size: 24px;
+  font-weight: 700;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, 0.3s ease;
+}
+.card-1 .button-container-1 button:hover, .card-1 .button-container-1 button:active, .card-1 .button-container-1 button:focus {
+  border-color: #006a71;
+  background-color: #006a71;
+  color: white;
+  box-shadow: 0 0 20px rgba(0,106,113,0.6);
+  transform: scale(1.08);
+}
+.card-1.alt {
+  position: absolute;
+  top: 40px;
+  right: -70px;
+  z-index: 10;
+  width: 140px;
+  height: 140px;
+  background: none;
+  border-radius: 100%;
+  box-shadow: none;
+  padding: 0;
+  transition: 0.3s ease;
+  /* toggle-1 */
+  /* Title */
+  /* Input */
+  /* Button */
+}
+.card-1.alt .toggle-1 {
+  position: relative;
+  background: #006a71;
+  width: 140px;
+  height: 140px;
+  border-radius: 100%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  color: #ffffff;
+  font-size: 58px;
+  line-height: 140px;
+  text-align: center;
+  cursor: pointer;
+}
+.card-1.alt .toggle-1:before {
+  content: "\f040";
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: 0.4s ease;
+}
+.card-1.alt .toggle-1:hover:before {
+  transform: rotate(360deg);
+}
+.card-1.alt .title,
+.card-1.alt .input-container-1,
+.card-1.alt .button-container-1 {
+  left: 100px;
+  opacity: 0;
+  visibility: hidden;
+}
+.card-1.alt .title {
+  position: relative;
+  border-color: #ffffff;
+  color: #ffffff;
+}
+.card-1.alt .title .close-1 {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 60px;
+  display: inline;
+  color: #ffffff;
+  font-size: 58px;
+  font-weight: 400;
+  -webkit-transition: -webkit-transform 0.1s ease-in-out;
+  -ms-transition: -ms-transform 0.1s ease-in-out;
+  transition: transform 0.1s ease-in;
+}
+.card-1.alt .title .close-1:before {
+  content: "\00d7";
+}
+.card-1.alt .title .close-1:hover {
+  transform:rotate(90deg);
+  -ms-transform:rotate(90deg);
+  -webkit-transform:rotate(90deg);
+}
+
+.card-1.alt .input-container-1 {
+  position: relative;
+  margin: 0 60px 40px;
+}
+.card-1.alt .input-container-1 .row{
+  column-gap: 30px;
+}
+.card-1.alt .input-container-1 .col{
+  padding-left: 8px;
+  height: 42px;
+}
+.card-1.alt .input-container-1 .col input[type=date]::-webkit-calendar-picker-indicator{
+  /* color: white; */
+  filter: invert(1);
+}
+.card-1.alt .input-container-1 .col input[type=date]::before {
+	content: "";
+	width: 100%;
+}
+.card-1.alt .input-container-1 .col input[type=date]:focus::before,
+.card-1.alt .input-container-1 .col input[type=date]:valid::before {
+  display: none;
+}
+
+
+.card-1.alt .input-container-1 input {
+  outline: none;
+  z-index: 1;
+  position: relative;
+  background: none;
+  width: 100%;
+  height: 50px;
+  border: 0;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 400;
+}
+.card-1.alt .input-container-1 input:focus ~ label {
+  color: #ffffff;
+}
+.card-1.alt .input-container-1 input:focus ~ .bar:before, .card-1.alt .input-container-1 input:focus ~ .bar:after {
+  background: #ff7e67;
+}
+.card-1.alt .input-container-1 input:valid ~ label {
+  color: #ffffff;
+}
+.card-1.alt .input-container-1 label {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 40px;
+}
+.card-1.alt .input-container-1 .bar {
+  background: rgba(255, 255, 255, 0.8);
+}
+.card-1.alt .button-container-1 button {
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  width: 160px;
+  background-color: #006a71;
+  color: #ffffff;
+  border: 2.6px solid #ffffff;
+  border-radius: 14px;
+  padding: 6px 0;
+  font-size: 24px;
+  font-weight: 700;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, 0.3s ease;
+}
+.card-1.alt .button-container-1 button:hover {
+  background-color: #ffffff;
+  color: #006a71;
+  box-shadow: 0 0 20px #ffffff;
+  transform: scale(1.08);
+}
+
+/* Keyframes */
+@-webkit-keyframes buttonFadeInUp {
+  0% {
+    bottom: 30px;
+    opacity: 0;
+  }
+}
+@-moz-keyframes buttonFadeInUp {
+  0% {
+    bottom: 30px;
+    opacity: 0;
+  }
+}
+@keyframes buttonFadeInUp {
+  0% {
+    bottom: 30px;
+    opacity: 0;
+  }
+}
